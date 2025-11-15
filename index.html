@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iamtr3b - Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6); }
+        }
+        
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+        }
+        
+        .tech-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .hero-bg {
+            transition: background 0.3s ease;
+        }
+        
+        .project-card {
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .skill-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .theme-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #374151;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .theme-toggle.active {
+            background: #4f46e5;
+        }
+        
+        .theme-toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .theme-toggle.active .theme-toggle-slider {
+            transform: translateX(30px);
+        }
+        
+        /* Light theme (default) */
+        .light {
+            --bg-primary: #f9fafb;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f3f4f6;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --hero-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Dark theme */
+        .dark {
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --bg-tertiary: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --hero-bg: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            --nav-bg: rgba(31, 41, 55, 0.8);
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --card-hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+        }
+        
+        .themed-bg-primary { background-color: var(--bg-primary); }
+        .themed-bg-secondary { background-color: var(--bg-secondary); }
+        .themed-bg-tertiary { background-color: var(--bg-tertiary); }
+        .themed-text-primary { color: var(--text-primary); }
+        .themed-text-secondary { color: var(--text-secondary); }
+        .themed-border { border-color: var(--border-color); }
+        .themed-hero-bg { background: var(--hero-bg); }
+        .themed-nav-bg { background: var(--nav-bg); }
+        .themed-card-shadow { box-shadow: var(--card-shadow); }
+        .themed-card-hover-shadow:hover { box-shadow: var(--card-hover-shadow); }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="min-h-full themed-bg-primary light"><!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 themed-nav-bg backdrop-blur-md themed-border border-b z-50">
+   <div class="container mx-auto px-6 py-4">
+    <div class="flex justify-between items-center">
+     <div class="text-xl font-bold gradient-text">
+      iamtr3b
+     </div>
+     <div class="flex items-center space-x-8"><button onclick="scrollToSection('about')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium">About</button> <button onclick="scrollToSection('projects')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium">Projects</button> <button onclick="scrollToSection('skills')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium">Skills</button> <button onclick="scrollToSection('contact')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium">Contact</button>
+      <div class="theme-toggle" onclick="toggleTheme()">
+       <div class="theme-toggle-slider">
+        ☀️
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </nav><!-- Hero Section -->
+  <section id="about" class="themed-hero-bg min-h-screen flex items-center pt-20">
+   <div class="container mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-12 items-center"><!-- Left Content -->
+     <div class="space-y-8">
+      <div class="space-y-4">
+       <div class="inline-flex items-center px-4 py-2 themed-bg-secondary/50 rounded-full text-sm font-medium themed-text-secondary backdrop-blur-sm">
+        👋 Hello, I'm Melbhert
+       </div>
+       <h1 class="text-5xl lg:text-6xl font-bold themed-text-primary leading-tight">Secondary School <span class="gradient-text">Teacher</span></h1>
+       <p class="text-xl themed-text-secondary leading-relaxed max-w-lg">Passionate educator bridging the gap between traditional teaching and modern technology. I create innovative tools to empower fellow educators and enhance student learning experiences.</p>
+      </div>
+      <div class="flex flex-wrap gap-3"><span class="tech-badge">Secondary Education</span> <span class="tech-badge">EdTech Innovation</span> <span class="tech-badge">AI Integration</span> <span class="tech-badge">Teacher Empowerment</span>
+      </div>
+      <div class="flex gap-4"><button onclick="scrollToSection('projects')" class="bg-gray-900 text-white px-8 py-4 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl"> View My Work </button> <button onclick="window.open('mailto:melbhert.boiser@deped.gov.ph', '_blank')" class="border-2 border-gray-900 themed-text-primary px-8 py-4 rounded-lg font-medium hover:bg-gray-900 hover:text-white transition-all duration-300"> Get In Touch </button>
+      </div>
+     </div><!-- Right Content - Profile & Stats -->
+     <div class="relative">
+      <div class="float-animation">
+       <div class="relative mx-auto w-80 h-80 rounded-3xl themed-bg-secondary p-8 shadow-2xl">
+        <div class="w-full h-48 rounded-2xl bg-gradient-to-br from-blue-400 to-purple-600 overflow-hidden mb-6"><img src="https://lh3.googleusercontent.com/d/18WwdDV8hpKrXQDN393CtTBQVmA54izQS" alt="Melbhert A. Boiser - Profile Photo" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-6xl text-white\'>👨‍💻</div>';">
+        </div>
+        <div class="text-center">
+         <h3 class="text-xl font-bold themed-text-primary mb-2">Melbhert A. Boiser</h3>
+         <p class="themed-text-secondary text-sm mb-4">DepEd Secondary Teacher</p>
+         <div class="flex justify-center space-x-4 text-sm">
+          <div class="text-center">
+           <div class="font-bold themed-text-primary">
+            10+
+           </div>
+           <div class="themed-text-secondary">
+            Projects
+           </div>
+          </div>
+          <div class="text-center">
+           <div class="font-bold themed-text-primary">
+            100+
+           </div>
+           <div class="themed-text-secondary">
+            Teachers Helped
+           </div>
+          </div>
+          <div class="text-center">
+           <div class="font-bold themed-text-primary">
+            AI
+           </div>
+           <div class="themed-text-secondary">
+            Powered
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Floating Elements -->
+      <div class="absolute -top-4 -right-4 w-20 h-20 bg-blue-500 rounded-2xl flex items-center justify-center text-white text-2xl pulse-glow">
+       🤖
+      </div>
+      <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-purple-500 rounded-xl flex items-center justify-center text-white text-xl float-animation" style="animation-delay: -2s;">
+       📚
+      </div>
+      <div class="absolute top-1/2 -right-8 w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center text-white float-animation" style="animation-delay: -4s;">
+       ⚡
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- Projects Section -->
+  <section id="projects" class="py-20 themed-bg-secondary">
+   <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+     <h2 class="text-4xl font-bold themed-text-primary mb-4">Featured Projects</h2>
+     <p class="text-xl themed-text-secondary max-w-2xl mx-auto">Educational tools I've created to empower teachers and enhance student learning experiences</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- Project 1: AI Photo Maker -->
+     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
+      <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
+       🤖
+      </div>
+      <h3 class="text-xl font-bold themed-text-primary mb-3">AI Photo Maker</h3>
+      <p class="themed-text-secondary mb-6 leading-relaxed">Advanced AI-powered image generation tool that creates stunning visuals from text descriptions using cutting-edge machine learning models.</p>
+      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">AI/ML</span> <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Image Generation</span> <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Gemini AI</span>
+      </div><button onclick="window.open('https://gemini.google.com/share/e2e9dc267612', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
+     </div><!-- Project 2: DepEd QRA Calculator -->
+     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
+      <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
+       🧮
+      </div>
+      <h3 class="text-xl font-bold themed-text-primary mb-3">DepEd QRA Calculator</h3>
+      <p class="themed-text-secondary mb-6 leading-relaxed">Comprehensive Quarterly Report On Assessment calculator designed specifically for DepEd educators to streamline performance evaluation processes.</p>
+      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Education</span> <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">Calculator</span> <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">DepEd</span>
+      </div><button onclick="window.open('https://iamtr3b.my.canva.site/calqra', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
+     </div><!-- Project 3: DepEd Lesson Plan Maker -->
+     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
+      <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-teal-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
+       📝
+      </div>
+      <h3 class="text-xl font-bold themed-text-primary mb-3">DepEd Lesson Plan Maker with AI</h3>
+      <p class="themed-text-secondary mb-6 leading-relaxed">Intelligent lesson planning assistant that leverages AI to help educators create comprehensive, standards-aligned lesson plans efficiently.</p>
+      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">AI Assistant</span> <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">Education</span> <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">Lesson Planning</span>
+      </div><button onclick="window.open('https://aistudio.google.com/apps/drive/1-mhDmi66bGcwXIGZextTd740u52LCSQ8', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
+     </div><!-- Project 4: UN Reviewer -->
+     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
+      <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
+       🌍
+      </div>
+      <h3 class="text-xl font-bold themed-text-primary mb-3">UN Reviewer</h3>
+      <p class="themed-text-secondary mb-6 leading-relaxed">Interactive educational tool designed to help students learn about the United Nations, its history, structure, and global impact through engaging content.</p>
+      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">United Nations</span> <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Global Education</span> <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Interactive Learning</span>
+      </div><button onclick="window.open('https://iamtr3b.my.canva.site/unreviewer', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
+     </div><!-- Project 5: MPS Calc -->
+     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
+      <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
+       📊
+      </div>
+      <h3 class="text-xl font-bold themed-text-primary mb-3">MPS Calc</h3>
+      <p class="themed-text-secondary mb-6 leading-relaxed">Mean Percentage Score calculator designed to help educators efficiently compute and analyze student performance metrics with detailed statistical insights.</p>
+      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Statistics</span> <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Assessment</span> <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-sm">Analytics</span>
+      </div><button onclick="window.open('https://iamtr3b.my.canva.site/calcmps', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
+     </div><!-- Project 6: CNHS ICT CSS -->
+     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
+      <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
+       💻
+      </div>
+      <h3 class="text-xl font-bold themed-text-primary mb-3">CNHS ICT CSS</h3>
+      <p class="themed-text-secondary mb-6 leading-relaxed">Online grade management application for ICT Computer Systems Servicing students at Camambugan National High School to access their academic performance and track progress.</p>
+      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">ICT Education</span> <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-sm">Web Platform</span> <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">CNHS</span>
+      </div><button onclick="window.open('https://cnhs-ictcss.netlify.app/', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
+     </div><!-- Project 7: AI Studio Project -->
+     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
+      <div class="w-16 h-16 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
+       🧠
+      </div>
+      <h3 class="text-xl font-bold themed-text-primary mb-3">AI Presentation Generator</h3>
+      <p class="themed-text-secondary mb-6 leading-relaxed">Intelligent presentation creation tool powered by Google AI Studio that automatically generates comprehensive slide decks from topics, complete with structured content and educational frameworks.</p>
+      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-violet-100 text-violet-800 px-3 py-1 rounded-full text-sm">Presentation</span> <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">AI Generator</span> <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Google AI Studio</span>
+      </div><button onclick="window.open('https://ai.studio/apps/drive/1IsQWpIdMByoDnkLf8A6Jw23w7S17akP6', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
+     </div><!-- Project 8: Streaming App -->
+     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
+      <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-pink-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
+       📺
+      </div>
+      <h3 class="text-xl font-bold themed-text-primary mb-3">Streaming App</h3>
+      <p class="themed-text-secondary mb-6 leading-relaxed">Modern streaming platform featuring a Netflix-inspired interface with movie browsing, search functionality, and responsive design for an optimal viewing experience.</p>
+      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">Streaming</span> <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">Entertainment</span> <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Web App</span>
+      </div><button onclick="window.open('https://tr3bflix.netlify.app/', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
+     </div><!-- Project 9: DepEd PMES DLL Generator -->
+     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
+      <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
+       ✨
+      </div>
+      <h3 class="text-xl font-bold themed-text-primary mb-3">DepEd PMES DLL Generator</h3>
+      <p class="themed-text-secondary mb-6 leading-relaxed">Intelligent Daily Lesson Log generator specifically designed for DepEd's Performance Monitoring and Evaluation System, streamlining lesson planning with AI-powered content creation.</p>
+      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm">DepEd PMES</span> <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">DLL Generator</span> <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">AI-Powered</span>
+      </div><button onclick="window.open('https://gemini.google.com/share/0568cf4710e0', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
+     </div><!-- Project 10: Poll-Voting System -->
+     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
+      <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
+       🎨
+      </div>
+      <h3 class="text-xl font-bold themed-text-primary mb-3">Poll-Voting System</h3>
+      <p class="themed-text-secondary mb-6 leading-relaxed">Digital polling and voting platform designed for educational institutions to conduct student elections, surveys, and classroom polls with real-time results and analytics.</p>
+      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">Voting System</span> <span class="bg-rose-100 text-rose-800 px-3 py-1 rounded-full text-sm">Real-time</span> <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Analytics</span>
+      </div><button onclick="window.open('https://iamtr3b.my.canva.site/sample1', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
+     </div>
+    </div>
+   </div>
+  </section><!-- Skills Section -->
+  <section id="skills" class="py-20 themed-bg-tertiary">
+   <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+     <h2 class="text-4xl font-bold themed-text-primary mb-4">Skills &amp; Technologies</h2>
+     <p class="text-xl themed-text-secondary max-w-2xl mx-auto">The expertise and tools I use to create innovative educational solutions</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+     <div class="text-center p-8 themed-bg-secondary rounded-2xl themed-card-shadow card-hover">
+      <div class="skill-icon bg-blue-100 text-blue-600 mx-auto">
+       🤖
+      </div>
+      <h3 class="font-bold themed-text-primary mb-3 text-lg">Artificial Intelligence</h3>
+      <p class="themed-text-secondary text-sm leading-relaxed">Machine Learning, AI Integration, Gemini AI, Educational AI Tools</p>
+     </div>
+     <div class="text-center p-8 themed-bg-secondary rounded-2xl themed-card-shadow card-hover">
+      <div class="skill-icon bg-green-100 text-green-600 mx-auto">
+       🌐
+      </div>
+      <h3 class="font-bold themed-text-primary mb-3 text-lg">Web Development</h3>
+      <p class="themed-text-secondary text-sm leading-relaxed">Frontend Development, Responsive Design, Interactive Applications</p>
+     </div>
+     <div class="text-center p-8 themed-bg-secondary rounded-2xl themed-card-shadow card-hover">
+      <div class="skill-icon bg-purple-100 text-purple-600 mx-auto">
+       🎓
+      </div>
+      <h3 class="font-bold themed-text-primary mb-3 text-lg">Educational Technology</h3>
+      <p class="themed-text-secondary text-sm leading-relaxed">EdTech Solutions, Learning Management, Assessment Tools</p>
+     </div>
+     <div class="text-center p-8 themed-bg-secondary rounded-2xl themed-card-shadow card-hover">
+      <div class="skill-icon bg-orange-100 text-orange-600 mx-auto">
+       ⚡
+      </div>
+      <h3 class="font-bold themed-text-primary mb-3 text-lg">Performance Optimization</h3>
+      <p class="themed-text-secondary text-sm leading-relaxed">Fast Loading, User Experience, Efficient Workflows</p>
+     </div>
+    </div>
+   </div>
+  </section><!-- Contact Section -->
+  <section id="contact" class="py-20 themed-bg-secondary">
+   <div class="container mx-auto px-6">
+    <div class="max-w-4xl mx-auto text-center">
+     <h2 class="text-4xl font-bold themed-text-primary mb-4">Let's Work Together</h2>
+     <p class="text-xl themed-text-secondary mb-12 max-w-2xl mx-auto">Interested in collaborating on educational technology projects or have ideas to improve learning experiences? I'd love to hear from you!</p>
+     <div class="grid md:grid-cols-3 gap-8 mb-12">
+      <div class="p-6 themed-bg-tertiary rounded-2xl">
+       <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mx-auto mb-4">
+        📧
+       </div>
+       <h3 class="font-bold themed-text-primary mb-2">Email</h3>
+       <p class="themed-text-secondary text-sm">melbhert.boiser@deped.gov.ph</p>
+      </div>
+      <div class="p-6 themed-bg-tertiary rounded-2xl">
+       <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-xl mx-auto mb-4">
+        🎓
+       </div>
+       <h3 class="font-bold themed-text-primary mb-2">Institution</h3>
+       <p class="themed-text-secondary text-sm">Department of Education</p>
+      </div>
+      <div class="p-6 themed-bg-tertiary rounded-2xl">
+       <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl mx-auto mb-4">
+        💡
+       </div>
+       <h3 class="font-bold themed-text-primary mb-2">Focus</h3>
+       <p class="themed-text-secondary text-sm">Educational Innovation</p>
+      </div>
+     </div>
+     <div class="flex flex-col sm:flex-row gap-4 justify-center"><button onclick="window.open('mailto:melbhert.boiser@deped.gov.ph', '_blank')" class="bg-gray-900 text-white px-8 py-4 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl"> 📧 Send Message </button> <button onclick="scrollToTop()" class="border-2 border-gray-900 themed-text-primary px-8 py-4 rounded-lg font-medium hover:bg-gray-900 hover:text-white transition-all duration-300"> ↑ Back to Top </button>
+     </div>
+    </div>
+   </div>
+  </section><!-- Footer -->
+  <footer class="bg-gray-900 text-white py-12">
+   <div class="container mx-auto px-6">
+    <div class="text-center">
+     <div class="text-2xl font-bold gradient-text mb-4">
+      iamtr3b
+     </div>
+     <p class="text-gray-400 mb-6">Empowering education through technology</p>
+     <div class="border-t border-gray-800 pt-6">
+      <p class="text-gray-500 text-sm">© 2025 iamtr3b. All rights reserved.</p>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <script>
+        // Theme functionality
+        function toggleTheme() {
+            const body = document.body;
+            const toggle = document.querySelector('.theme-toggle');
+            const slider = document.querySelector('.theme-toggle-slider');
+            
+            if (body.classList.contains('light')) {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                toggle.classList.add('active');
+                slider.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                toggle.classList.remove('active');
+                slider.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Initialize theme on page load
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const toggle = document.querySelector('.theme-toggle');
+            const slider = document.querySelector('.theme-toggle-slider');
+            
+            if (savedTheme === 'dark') {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                toggle.classList.add('active');
+                slider.textContent = '🌙';
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                toggle.classList.remove('active');
+                slider.textContent = '☀️';
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                const navHeight = 80;
+                const elementPosition = element.offsetTop - navHeight;
+                window.scrollTo({
+                    top: elementPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        function openProjectLink(url, projectName) {
+            showLinkModal(url, projectName);
+        }
+
+        function showLinkModal(url, projectName) {
+            const body = document.body;
+            const isDark = body.classList.contains('dark');
+            
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="${isDark ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} rounded-2xl p-8 max-w-md mx-4 text-center shadow-2xl">
+                    <h3 class="text-xl font-bold mb-4">Open ${projectName}</h3>
+                    <p class="${isDark ? 'text-gray-300' : 'text-gray-600'} mb-6">The link might be blocked by your browser. You can copy the URL below and paste it in a new tab:</p>
+                    <div class="${isDark ? 'bg-gray-700 border-gray-600 text-gray-200' : 'bg-gray-100 border-gray-200 text-gray-700'} border p-4 rounded-lg mb-6 text-sm break-all font-mono">${url}</div>
+                    <div class="flex gap-3 justify-center">
+                        <button onclick="copyToClipboard('${url}')" class="bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 font-medium transition-all">
+                            Copy Link
+                        </button>
+                        <button onclick="closeModal()" class="${isDark ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'} border-2 px-6 py-3 rounded-lg font-medium transition-all">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(function() {
+                    showCopySuccess();
+                }).catch(function() {
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopySuccess();
+            } catch (err) {
+                alert('Copy failed. Please manually copy this link: ' + text);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function showCopySuccess() {
+            const button = event.target;
+            const originalText = button.textContent;
+            const originalClass = button.className;
+            button.textContent = 'Copied!';
+            button.className = 'bg-green-500 text-white px-6 py-3 rounded-lg font-medium';
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.className = originalClass;
+            }, 2000);
+        }
+
+        function closeModal() {
+            const modal = document.querySelector('.fixed.inset-0');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // Initialize everything on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize theme
+            initTheme();
+            
+            // Smooth animations on scroll
+            const cards = document.querySelectorAll('.card-hover');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99ebd4c254995f39',t:'MTc2MzE3OTExNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
