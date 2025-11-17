@@ -156,51 +156,64 @@
  </head>
  <body class="min-h-full themed-bg-primary light"><!-- Navigation -->
   <nav class="fixed top-0 left-0 right-0 themed-nav-bg backdrop-blur-md themed-border border-b z-50">
-   <div class="container mx-auto px-6 py-4">
+   <div class="container mx-auto px-4 sm:px-6 py-4">
     <div class="flex justify-between items-center">
-     <div class="text-xl font-bold gradient-text">
+     <div class="text-lg sm:text-xl font-bold gradient-text">
       iamtr3b
-     </div>
-     <div class="flex items-center space-x-8"><button onclick="scrollToSection('about')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium">About</button> <button onclick="scrollToSection('projects')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium">Projects</button> <button onclick="scrollToSection('skills')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium">Skills</button> <button onclick="scrollToSection('contact')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium">Contact</button>
+     </div><!-- Desktop Navigation -->
+     <div class="hidden md:flex items-center space-x-6 lg:space-x-8"><button onclick="scrollToSection('about')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium text-sm lg:text-base">About</button> <button onclick="scrollToSection('projects')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium text-sm lg:text-base">Projects</button> <button onclick="scrollToSection('skills')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium text-sm lg:text-base">Skills</button> <button onclick="scrollToSection('contact')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium text-sm lg:text-base">Contact</button>
       <div class="theme-toggle" onclick="toggleTheme()">
        <div class="theme-toggle-slider">
         ☀️
        </div>
       </div>
+     </div><!-- Mobile Menu Button -->
+     <div class="flex items-center space-x-3 md:hidden">
+      <div class="theme-toggle" onclick="toggleTheme()">
+       <div class="theme-toggle-slider">
+        ☀️
+       </div>
+      </div><button onclick="toggleMobileMenu()" class="themed-text-primary p-2">
+       <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+       </svg>
+       <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+       </svg></button>
      </div>
+    </div><!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-3"><button onclick="scrollToSection('about'); toggleMobileMenu();" class="block w-full text-left themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium py-2">About</button> <button onclick="scrollToSection('projects'); toggleMobileMenu();" class="block w-full text-left themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium py-2">Projects</button> <button onclick="scrollToSection('skills'); toggleMobileMenu();" class="block w-full text-left themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium py-2">Skills</button> <button onclick="scrollToSection('contact'); toggleMobileMenu();" class="block w-full text-left themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium py-2">Contact</button>
     </div>
    </div>
   </nav><!-- Hero Section -->
-  <section id="about" class="themed-hero-bg min-h-screen flex items-center pt-20">
-   <div class="container mx-auto px-6">
-    <div class="grid lg:grid-cols-2 gap-12 items-center"><!-- Left Content -->
-     <div class="space-y-8">
+  <section id="about" class="themed-hero-bg min-h-screen flex items-center pt-20 px-4 sm:px-6">
+   <div class="container mx-auto">
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center"><!-- Left Content -->
+     <div class="space-y-6 sm:space-y-8 text-center lg:text-left">
       <div class="space-y-4">
-       <div class="inline-flex items-center px-4 py-2 themed-bg-secondary/50 rounded-full text-sm font-medium themed-text-secondary backdrop-blur-sm">
+       <div class="inline-flex items-center px-4 py-2 themed-bg-secondary/50 rounded-full text-xs sm:text-sm font-medium themed-text-secondary backdrop-blur-sm">
         👋 Hello, I'm Melbhert
        </div>
-       <h1 class="text-5xl lg:text-6xl font-bold themed-text-primary leading-tight">Secondary School <span class="gradient-text">Teacher</span></h1>
-       <p class="text-xl themed-text-secondary leading-relaxed max-w-lg">Passionate educator bridging the gap between traditional teaching and modern technology. I create innovative tools to empower fellow educators and enhance student learning experiences.</p>
+       <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold themed-text-primary leading-tight">Secondary School <span class="gradient-text">Teacher</span></h1>
+       <p class="text-base sm:text-lg lg:text-xl themed-text-secondary leading-relaxed max-w-lg mx-auto lg:mx-0">Passionate educator bridging the gap between traditional teaching and modern technology. I create innovative tools to empower fellow educators and enhance student learning experiences.</p>
       </div>
-      <div class="flex flex-wrap gap-3"><span class="tech-badge">Secondary Education</span> <span class="tech-badge">EdTech Innovation</span> <span class="tech-badge">AI Integration</span> <span class="tech-badge">Teacher Empowerment</span>
+      <div class="flex flex-wrap gap-2 sm:gap-3 justify-center lg:justify-start"><span class="tech-badge text-xs sm:text-sm">Secondary Education</span> <span class="tech-badge text-xs sm:text-sm">EdTech Innovation</span> <span class="tech-badge text-xs sm:text-sm">AI Integration</span> <span class="tech-badge text-xs sm:text-sm">Teacher Empowerment</span>
       </div>
-      <div class="flex gap-4"><button onclick="scrollToSection('projects')" class="bg-gray-900 text-white px-8 py-4 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl"> View My Work </button> <button onclick="window.open('mailto:melbhert.boiser@deped.gov.ph', '_blank')" class="border-2 border-gray-900 themed-text-primary px-8 py-4 rounded-lg font-medium hover:bg-gray-900 hover:text-white transition-all duration-300"> Get In Touch </button>
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start"><button onclick="scrollToSection('projects')" class="bg-gray-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base"> View My Work </button> <button onclick="window.open('mailto:melbhert.boiser@deped.gov.ph', '_blank')" class="border-2 border-gray-900 themed-text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-gray-900 hover:text-white transition-all duration-300 text-sm sm:text-base"> Get In Touch </button>
       </div>
      </div><!-- Right Content - Profile & Stats -->
-     <div class="relative">
+     <div class="relative mt-8 lg:mt-0">
       <div class="float-animation">
-       <div class="relative mx-auto w-80 h-80 rounded-3xl themed-bg-secondary p-8 shadow-2xl">
-        <div class="w-full h-48 rounded-2xl bg-gradient-to-br from-blue-400 to-purple-600 overflow-hidden mb-6"><img src="https://lh3.googleusercontent.com/d/18WwdDV8hpKrXQDN393CtTBQVmA54izQS" alt="Melbhert A. Boiser - Profile Photo" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-6xl text-white\'>👨‍💻</div>';">
+       <div class="relative mx-auto w-full max-w-xs sm:max-w-sm lg:w-80 rounded-3xl themed-bg-secondary p-6 sm:p-8 shadow-2xl">
+        <div class="w-full h-40 sm:h-48 rounded-2xl bg-gradient-to-br from-blue-400 to-purple-600 overflow-hidden mb-4 sm:mb-6"><img src="https://lh3.googleusercontent.com/d/18WwdDV8hpKrXQDN393CtTBQVmA54izQS" alt="Melbhert A. Boiser - Profile Photo" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-4xl sm:text-6xl text-white\'>👨‍💻</div>';">
         </div>
         <div class="text-center">
-         <h3 class="text-xl font-bold themed-text-primary mb-2">Melbhert A. Boiser</h3>
-         <p class="themed-text-secondary text-sm mb-4">DepEd Secondary Teacher</p>
-         <div class="flex justify-center space-x-4 text-sm">
+         <h3 class="text-lg sm:text-xl font-bold themed-text-primary mb-2">Melbhert A. Boiser</h3>
+         <p class="themed-text-secondary text-xs sm:text-sm mb-4">DepEd Secondary Teacher</p>
+         <div class="flex justify-center space-x-4 sm:space-x-6 text-xs sm:text-sm">
           <div class="text-center">
            <div class="font-bold themed-text-primary">
             10+
            </div>
-           <div class="themed-text-secondary">
+           <div class="themed-text-secondary text-xs">
             Projects
            </div>
           </div>
@@ -208,15 +221,15 @@
            <div class="font-bold themed-text-primary">
             100+
            </div>
-           <div class="themed-text-secondary">
-            Teachers Helped
+           <div class="themed-text-secondary text-xs">
+            Teachers
            </div>
           </div>
           <div class="text-center">
            <div class="font-bold themed-text-primary">
             AI
            </div>
-           <div class="themed-text-secondary">
+           <div class="themed-text-secondary text-xs">
             Powered
            </div>
           </div>
@@ -224,26 +237,26 @@
         </div>
        </div>
       </div><!-- Floating Elements -->
-      <div class="absolute -top-4 -right-4 w-20 h-20 bg-blue-500 rounded-2xl flex items-center justify-center text-white text-2xl pulse-glow">
+      <div class="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 w-14 h-14 sm:w-20 sm:h-20 bg-blue-500 rounded-2xl flex items-center justify-center text-white text-xl sm:text-2xl pulse-glow">
        🤖
       </div>
-      <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-purple-500 rounded-xl flex items-center justify-center text-white text-xl float-animation" style="animation-delay: -2s;">
+      <div class="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-xl flex items-center justify-center text-white text-base sm:text-xl float-animation" style="animation-delay: -2s;">
        📚
       </div>
-      <div class="absolute top-1/2 -right-8 w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center text-white float-animation" style="animation-delay: -4s;">
+      <div class="absolute top-1/2 -right-4 sm:-right-8 w-10 h-10 sm:w-12 sm:h-12 bg-green-500 rounded-lg flex items-center justify-center text-white text-sm sm:text-base float-animation" style="animation-delay: -4s;">
        ⚡
       </div>
      </div>
     </div>
    </div>
   </section><!-- Projects Section -->
-  <section id="projects" class="py-20 themed-bg-secondary">
-   <div class="container mx-auto px-6">
-    <div class="text-center mb-16">
-     <h2 class="text-4xl font-bold themed-text-primary mb-4">Featured Projects</h2>
-     <p class="text-xl themed-text-secondary max-w-2xl mx-auto">Educational tools I've created to empower teachers and enhance student learning experiences</p>
+  <section id="projects" class="py-12 sm:py-16 lg:py-20 themed-bg-secondary">
+   <div class="container mx-auto px-4 sm:px-6">
+    <div class="text-center mb-10 sm:mb-12 lg:mb-16">
+     <h2 class="text-3xl sm:text-4xl font-bold themed-text-primary mb-3 sm:mb-4">Featured Projects</h2>
+     <p class="text-base sm:text-lg lg:text-xl themed-text-secondary max-w-2xl mx-auto px-4">Educational tools I've created to empower teachers and enhance student learning experiences</p>
     </div>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- Project 1: AI Photo Maker -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"><!-- Project 1: AI Photo Maker -->
      <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
       <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
        🤖
@@ -346,13 +359,13 @@
     </div>
    </div>
   </section><!-- Skills Section -->
-  <section id="skills" class="py-20 themed-bg-tertiary">
-   <div class="container mx-auto px-6">
-    <div class="text-center mb-16">
-     <h2 class="text-4xl font-bold themed-text-primary mb-4">Skills &amp; Technologies</h2>
-     <p class="text-xl themed-text-secondary max-w-2xl mx-auto">The expertise and tools I use to create innovative educational solutions</p>
+  <section id="skills" class="py-12 sm:py-16 lg:py-20 themed-bg-tertiary">
+   <div class="container mx-auto px-4 sm:px-6">
+    <div class="text-center mb-10 sm:mb-12 lg:mb-16">
+     <h2 class="text-3xl sm:text-4xl font-bold themed-text-primary mb-3 sm:mb-4">Skills &amp; Technologies</h2>
+     <p class="text-base sm:text-lg lg:text-xl themed-text-secondary max-w-2xl mx-auto px-4">The expertise and tools I use to create innovative educational solutions</p>
     </div>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
      <div class="text-center p-8 themed-bg-secondary rounded-2xl themed-card-shadow card-hover">
       <div class="skill-icon bg-blue-100 text-blue-600 mx-auto">
        🤖
@@ -384,12 +397,12 @@
     </div>
    </div>
   </section><!-- Contact Section -->
-  <section id="contact" class="py-20 themed-bg-secondary">
-   <div class="container mx-auto px-6">
+  <section id="contact" class="py-12 sm:py-16 lg:py-20 themed-bg-secondary">
+   <div class="container mx-auto px-4 sm:px-6">
     <div class="max-w-4xl mx-auto text-center">
-     <h2 class="text-4xl font-bold themed-text-primary mb-4">Let's Work Together</h2>
-     <p class="text-xl themed-text-secondary mb-12 max-w-2xl mx-auto">Interested in collaborating on educational technology projects or have ideas to improve learning experiences? I'd love to hear from you!</p>
-     <div class="grid md:grid-cols-3 gap-8 mb-12">
+     <h2 class="text-3xl sm:text-4xl font-bold themed-text-primary mb-3 sm:mb-4">Let's Work Together</h2>
+     <p class="text-base sm:text-lg lg:text-xl themed-text-secondary mb-8 sm:mb-10 lg:mb-12 max-w-2xl mx-auto px-4">Interested in collaborating on educational technology projects or have ideas to improve learning experiences? I'd love to hear from you!</p>
+     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-10 lg:mb-12">
       <div class="p-6 themed-bg-tertiary rounded-2xl">
        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mx-auto mb-4">
         📧
@@ -412,7 +425,7 @@
        <p class="themed-text-secondary text-sm">Educational Innovation</p>
       </div>
      </div>
-     <div class="flex flex-col sm:flex-row gap-4 justify-center"><button onclick="window.open('mailto:melbhert.boiser@deped.gov.ph', '_blank')" class="bg-gray-900 text-white px-8 py-4 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl"> 📧 Send Message </button> <button onclick="showGCashModal()" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"> ☕ Buy Me Coffee </button> <button onclick="scrollToTop()" class="border-2 border-gray-900 themed-text-primary px-8 py-4 rounded-lg font-medium hover:bg-gray-900 hover:text-white transition-all duration-300"> ↑ Back to Top </button>
+     <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"><button onclick="window.open('mailto:melbhert.boiser@deped.gov.ph', '_blank')" class="bg-gray-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base"> 📧 Send Message </button> <button onclick="showGCashModal()" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base"> ☕ Buy Me Coffee </button> <button onclick="scrollToTop()" class="border-2 border-gray-900 themed-text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-gray-900 hover:text-white transition-all duration-300 text-sm sm:text-base"> ↑ Back to Top </button>
      </div>
     </div>
    </div>
@@ -431,6 +444,23 @@
    </div>
   </footer>
   <script>
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+
         // Theme functionality
         function toggleTheme() {
             const body = document.body;
@@ -683,5 +713,5 @@
             });
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99fbbf4f3278166a',t:'MTc2MzM0NjAwOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99fc6e9062458349',t:'MTc2MzM1MzE4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
