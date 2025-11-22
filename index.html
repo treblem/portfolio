@@ -1,717 +1,769 @@
-<!doctype html>
-<html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>iamtr3b - Portfolio</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-        body {
-            box-sizing: border-box;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6); }
-        }
-        
-        .float-animation {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .pulse-glow {
-            animation: pulse-glow 2s ease-in-out infinite;
-        }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-8px);
-        }
-        
-        .tech-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-        
-        .hero-bg {
-            transition: background 0.3s ease;
-        }
-        
-        .project-card {
-            border-radius: 1rem;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-4px);
-        }
-        
-        .skill-icon {
-            width: 3rem;
-            height: 3rem;
-            border-radius: 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .theme-toggle {
-            position: relative;
-            width: 60px;
-            height: 30px;
-            background: #374151;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        
-        .theme-toggle.active {
-            background: #4f46e5;
-        }
-        
-        .theme-toggle-slider {
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 24px;
-            height: 24px;
-            background: white;
-            border-radius: 50%;
-            transition: transform 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-        
-        .theme-toggle.active .theme-toggle-slider {
-            transform: translateX(30px);
-        }
-        
-        /* Light theme (default) */
-        .light {
-            --bg-primary: #f9fafb;
-            --bg-secondary: #ffffff;
-            --bg-tertiary: #f3f4f6;
-            --text-primary: #111827;
-            --text-secondary: #6b7280;
-            --border-color: #e5e7eb;
-            --hero-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --nav-bg: rgba(255, 255, 255, 0.8);
-            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --card-hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Dark theme */
-        .dark {
-            --bg-primary: #111827;
-            --bg-secondary: #1f2937;
-            --bg-tertiary: #374151;
-            --text-primary: #f9fafb;
-            --text-secondary: #d1d5db;
-            --border-color: #374151;
-            --hero-bg: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-            --nav-bg: rgba(31, 41, 55, 0.8);
-            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-            --card-hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
-        }
-        
-        .themed-bg-primary { background-color: var(--bg-primary); }
-        .themed-bg-secondary { background-color: var(--bg-secondary); }
-        .themed-bg-tertiary { background-color: var(--bg-tertiary); }
-        .themed-text-primary { color: var(--text-primary); }
-        .themed-text-secondary { color: var(--text-secondary); }
-        .themed-border { border-color: var(--border-color); }
-        .themed-hero-bg { background: var(--hero-bg); }
-        .themed-nav-bg { background: var(--nav-bg); }
-        .themed-card-shadow { box-shadow: var(--card-shadow); }
-        .themed-card-hover-shadow:hover { box-shadow: var(--card-hover-shadow); }
-    </style>
-  <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
- </head>
- <body class="min-h-full themed-bg-primary light"><!-- Navigation -->
-  <nav class="fixed top-0 left-0 right-0 themed-nav-bg backdrop-blur-md themed-border border-b z-50">
-   <div class="container mx-auto px-4 sm:px-6 py-4">
-    <div class="flex justify-between items-center">
-     <div class="text-lg sm:text-xl font-bold gradient-text">
-      iamtr3b
-     </div><!-- Desktop Navigation -->
-     <div class="hidden md:flex items-center space-x-6 lg:space-x-8"><button onclick="scrollToSection('about')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium text-sm lg:text-base">About</button> <button onclick="scrollToSection('projects')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium text-sm lg:text-base">Projects</button> <button onclick="scrollToSection('skills')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium text-sm lg:text-base">Skills</button> <button onclick="scrollToSection('contact')" class="themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium text-sm lg:text-base">Contact</button>
-      <div class="theme-toggle" onclick="toggleTheme()">
-       <div class="theme-toggle-slider">
-        ☀️
-       </div>
-      </div>
-     </div><!-- Mobile Menu Button -->
-     <div class="flex items-center space-x-3 md:hidden">
-      <div class="theme-toggle" onclick="toggleTheme()">
-       <div class="theme-toggle-slider">
-        ☀️
-       </div>
-      </div><button onclick="toggleMobileMenu()" class="themed-text-primary p-2">
-       <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-       </svg>
-       <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-       </svg></button>
-     </div>
-    </div><!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 space-y-3"><button onclick="scrollToSection('about'); toggleMobileMenu();" class="block w-full text-left themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium py-2">About</button> <button onclick="scrollToSection('projects'); toggleMobileMenu();" class="block w-full text-left themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium py-2">Projects</button> <button onclick="scrollToSection('skills'); toggleMobileMenu();" class="block w-full text-left themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium py-2">Skills</button> <button onclick="scrollToSection('contact'); toggleMobileMenu();" class="block w-full text-left themed-text-secondary hover:themed-text-primary transition-colors duration-300 font-medium py-2">Contact</button>
-    </div>
-   </div>
-  </nav><!-- Hero Section -->
-  <section id="about" class="themed-hero-bg min-h-screen flex items-center pt-20 px-4 sm:px-6">
-   <div class="container mx-auto">
-    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center"><!-- Left Content -->
-     <div class="space-y-6 sm:space-y-8 text-center lg:text-left">
-      <div class="space-y-4">
-       <div class="inline-flex items-center px-4 py-2 themed-bg-secondary/50 rounded-full text-xs sm:text-sm font-medium themed-text-secondary backdrop-blur-sm">
-        👋 Hello, I'm Melbhert
-       </div>
-       <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold themed-text-primary leading-tight">Secondary School <span class="gradient-text">Teacher</span></h1>
-       <p class="text-base sm:text-lg lg:text-xl themed-text-secondary leading-relaxed max-w-lg mx-auto lg:mx-0">Passionate educator bridging the gap between traditional teaching and modern technology. I create innovative tools to empower fellow educators and enhance student learning experiences.</p>
-      </div>
-      <div class="flex flex-wrap gap-2 sm:gap-3 justify-center lg:justify-start"><span class="tech-badge text-xs sm:text-sm">Secondary Education</span> <span class="tech-badge text-xs sm:text-sm">EdTech Innovation</span> <span class="tech-badge text-xs sm:text-sm">AI Integration</span> <span class="tech-badge text-xs sm:text-sm">Teacher Empowerment</span>
-      </div>
-      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start"><button onclick="scrollToSection('projects')" class="bg-gray-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base"> View My Work </button> <button onclick="window.open('mailto:melbhert.boiser@deped.gov.ph', '_blank')" class="border-2 border-gray-900 themed-text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-gray-900 hover:text-white transition-all duration-300 text-sm sm:text-base"> Get In Touch </button>
-      </div>
-     </div><!-- Right Content - Profile & Stats -->
-     <div class="relative mt-8 lg:mt-0">
-      <div class="float-animation">
-       <div class="relative mx-auto w-full max-w-xs sm:max-w-sm lg:w-80 rounded-3xl themed-bg-secondary p-6 sm:p-8 shadow-2xl">
-        <div class="w-full h-40 sm:h-48 rounded-2xl bg-gradient-to-br from-blue-400 to-purple-600 overflow-hidden mb-4 sm:mb-6"><img src="https://lh3.googleusercontent.com/d/18WwdDV8hpKrXQDN393CtTBQVmA54izQS" alt="Melbhert A. Boiser - Profile Photo" class="w-full h-full object-cover" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-4xl sm:text-6xl text-white\'>👨‍💻</div>';">
-        </div>
-        <div class="text-center">
-         <h3 class="text-lg sm:text-xl font-bold themed-text-primary mb-2">Melbhert A. Boiser</h3>
-         <p class="themed-text-secondary text-xs sm:text-sm mb-4">DepEd Secondary Teacher</p>
-         <div class="flex justify-center space-x-4 sm:space-x-6 text-xs sm:text-sm">
-          <div class="text-center">
-           <div class="font-bold themed-text-primary">
-            10+
-           </div>
-           <div class="themed-text-secondary text-xs">
-            Projects
-           </div>
-          </div>
-          <div class="text-center">
-           <div class="font-bold themed-text-primary">
-            100+
-           </div>
-           <div class="themed-text-secondary text-xs">
-            Teachers
-           </div>
-          </div>
-          <div class="text-center">
-           <div class="font-bold themed-text-primary">
-            AI
-           </div>
-           <div class="themed-text-secondary text-xs">
-            Powered
-           </div>
-          </div>
-         </div>
-        </div>
-       </div>
-      </div><!-- Floating Elements -->
-      <div class="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 w-14 h-14 sm:w-20 sm:h-20 bg-blue-500 rounded-2xl flex items-center justify-center text-white text-xl sm:text-2xl pulse-glow">
-       🤖
-      </div>
-      <div class="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-xl flex items-center justify-center text-white text-base sm:text-xl float-animation" style="animation-delay: -2s;">
-       📚
-      </div>
-      <div class="absolute top-1/2 -right-4 sm:-right-8 w-10 h-10 sm:w-12 sm:h-12 bg-green-500 rounded-lg flex items-center justify-center text-white text-sm sm:text-base float-animation" style="animation-delay: -4s;">
-       ⚡
-      </div>
-     </div>
-    </div>
-   </div>
-  </section><!-- Projects Section -->
-  <section id="projects" class="py-12 sm:py-16 lg:py-20 themed-bg-secondary">
-   <div class="container mx-auto px-4 sm:px-6">
-    <div class="text-center mb-10 sm:mb-12 lg:mb-16">
-     <h2 class="text-3xl sm:text-4xl font-bold themed-text-primary mb-3 sm:mb-4">Featured Projects</h2>
-     <p class="text-base sm:text-lg lg:text-xl themed-text-secondary max-w-2xl mx-auto px-4">Educational tools I've created to empower teachers and enhance student learning experiences</p>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"><!-- Project 1: AI Photo Maker -->
-     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
-      <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
-       🤖
-      </div>
-      <h3 class="text-xl font-bold themed-text-primary mb-3">AI Photo Maker</h3>
-      <p class="themed-text-secondary mb-6 leading-relaxed">Advanced AI-powered image generation tool that creates stunning visuals from text descriptions using cutting-edge machine learning models.</p>
-      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">AI/ML</span> <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Image Generation</span> <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Gemini AI</span>
-      </div><button onclick="window.open('https://gemini.google.com/share/e2e9dc267612', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
-     </div><!-- Project 2: DepEd QRA Calculator -->
-     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
-      <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
-       🧮
-      </div>
-      <h3 class="text-xl font-bold themed-text-primary mb-3">DepEd QRA Calculator</h3>
-      <p class="themed-text-secondary mb-6 leading-relaxed">Comprehensive Quarterly Report On Assessment calculator designed specifically for DepEd educators to streamline performance evaluation processes.</p>
-      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Education</span> <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">Calculator</span> <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">DepEd</span>
-      </div><button onclick="window.open('https://iamtr3b.my.canva.site/calqra', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
-     </div><!-- Project 3: DepEd Lesson Plan Maker -->
-     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
-      <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-teal-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
-       📝
-      </div>
-      <h3 class="text-xl font-bold themed-text-primary mb-3">DepEd Lesson Plan Maker with AI</h3>
-      <p class="themed-text-secondary mb-6 leading-relaxed">Intelligent lesson planning assistant that leverages AI to help educators create comprehensive, standards-aligned lesson plans efficiently.</p>
-      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">AI Assistant</span> <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">Education</span> <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">Lesson Planning</span>
-      </div><button onclick="window.open('https://ai.studio/apps/drive/1-mhDmi66bGcwXIGZextTd740u52LCSQ8', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
-     </div><!-- Project 4: UN Reviewer -->
-     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
-      <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
-       🌍
-      </div>
-      <h3 class="text-xl font-bold themed-text-primary mb-3">UN Reviewer</h3>
-      <p class="themed-text-secondary mb-6 leading-relaxed">Interactive educational tool designed to help students learn about the United Nations, its history, structure, and global impact through engaging content.</p>
-      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">United Nations</span> <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Global Education</span> <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Interactive Learning</span>
-      </div><button onclick="window.open('https://iamtr3b.my.canva.site/unreviewer', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
-     </div><!-- Project 5: MPS Calc -->
-     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
-      <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
-       📊
-      </div>
-      <h3 class="text-xl font-bold themed-text-primary mb-3">MPS Calc</h3>
-      <p class="themed-text-secondary mb-6 leading-relaxed">Mean Percentage Score calculator designed to help educators efficiently compute and analyze student performance metrics with detailed statistical insights.</p>
-      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Statistics</span> <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Assessment</span> <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-sm">Analytics</span>
-      </div><button onclick="window.open('https://iamtr3b.my.canva.site/calcmps', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
-     </div><!-- Project 6: CNHS ICT CSS -->
-     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
-      <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
-       💻
-      </div>
-      <h3 class="text-xl font-bold themed-text-primary mb-3">CNHS ICT CSS</h3>
-      <p class="themed-text-secondary mb-6 leading-relaxed">Online grade management application for ICT Computer Systems Servicing students at Camambugan National High School to access their academic performance and track progress.</p>
-      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">ICT Education</span> <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-sm">Web Platform</span> <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">CNHS</span>
-      </div><button onclick="window.open('https://cnhs-ictcss.netlify.app/', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
-     </div><!-- Project 7: AI Studio Project -->
-     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
-      <div class="w-16 h-16 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
-       🧠
-      </div>
-      <h3 class="text-xl font-bold themed-text-primary mb-3">AI Presentation Generator</h3>
-      <p class="themed-text-secondary mb-6 leading-relaxed">Intelligent presentation creation tool powered by Google AI Studio that automatically generates comprehensive slide decks from topics, complete with structured content and educational frameworks.</p>
-      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-violet-100 text-violet-800 px-3 py-1 rounded-full text-sm">Presentation</span> <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">AI Generator</span> <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Google AI Studio</span>
-      </div><button onclick="window.open('https://ai.studio/apps/drive/1IsQWpIdMByoDnkLf8A6Jw23w7S17akP6', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
-     </div><!-- Project 8: Streaming App -->
-     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
-      <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-pink-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
-       📺
-      </div>
-      <h3 class="text-xl font-bold themed-text-primary mb-3">Streaming App</h3>
-      <p class="themed-text-secondary mb-6 leading-relaxed">Modern streaming platform featuring a Netflix-inspired interface with movie browsing, search functionality, and responsive design for an optimal viewing experience.</p>
-      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">Streaming</span> <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">Entertainment</span> <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Web App</span>
-      </div><button onclick="window.open('https://tr3bflix.netlify.app/', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
-     </div><!-- Project 9: DepEd PMES DLL Generator -->
-     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
-      <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
-       ✨
-      </div>
-      <h3 class="text-xl font-bold themed-text-primary mb-3">DepEd PMES DLL Generator</h3>
-      <p class="themed-text-secondary mb-6 leading-relaxed">Intelligent Daily Lesson Log generator specifically designed for DepEd's Performance Monitoring and Evaluation System, streamlining lesson planning with AI-powered content creation.</p>
-      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm">DepEd PMES</span> <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">DLL Generator</span> <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">AI-Powered</span>
-      </div><button onclick="window.open('https://gemini.google.com/share/0d813758e219', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
-     </div><!-- Project 10: Poll-Voting System -->
-     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
-      <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
-       🎨
-      </div>
-      <h3 class="text-xl font-bold themed-text-primary mb-3">Poll-Voting System</h3>
-      <p class="themed-text-secondary mb-6 leading-relaxed">Digital polling and voting platform designed for educational institutions to conduct student elections, surveys, and classroom polls with real-time results and analytics.</p>
-      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">Voting System</span> <span class="bg-rose-100 text-rose-800 px-3 py-1 rounded-full text-sm">Real-time</span> <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Analytics</span>
-      </div><button onclick="window.open('https://iamtr3b.my.canva.site/sample1', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
-     </div><!-- Project 11: DepEd TOS Generator -->
-     <div class="project-card card-hover themed-bg-primary themed-card-shadow themed-card-hover-shadow">
-      <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center text-white text-2xl mb-6">
-       📋
-      </div>
-      <h3 class="text-xl font-bold themed-text-primary mb-3">DepEd TOS Generator</h3>
-      <p class="themed-text-secondary mb-6 leading-relaxed">K-12 &amp; MELCs Aligned Item Distribution Tool that automatically generates comprehensive Table of Specifications for DepEd assessments, ensuring proper alignment with curriculum standards and learning competencies.</p>
-      <div class="flex flex-wrap gap-2 mb-6"><span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm">TOS Generator</span> <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">K-12 Aligned</span> <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">MELCs</span>
-      </div><button onclick="window.open('https://gemini.google.com/share/d0f03d582248', '_blank', 'noopener,noreferrer')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300"> View Project → </button>
-     </div>
-    </div>
-   </div>
-  </section><!-- Skills Section -->
-  <section id="skills" class="py-12 sm:py-16 lg:py-20 themed-bg-tertiary">
-   <div class="container mx-auto px-4 sm:px-6">
-    <div class="text-center mb-10 sm:mb-12 lg:mb-16">
-     <h2 class="text-3xl sm:text-4xl font-bold themed-text-primary mb-3 sm:mb-4">Skills &amp; Technologies</h2>
-     <p class="text-base sm:text-lg lg:text-xl themed-text-secondary max-w-2xl mx-auto px-4">The expertise and tools I use to create innovative educational solutions</p>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-     <div class="text-center p-8 themed-bg-secondary rounded-2xl themed-card-shadow card-hover">
-      <div class="skill-icon bg-blue-100 text-blue-600 mx-auto">
-       🤖
-      </div>
-      <h3 class="font-bold themed-text-primary mb-3 text-lg">Artificial Intelligence</h3>
-      <p class="themed-text-secondary text-sm leading-relaxed">Machine Learning, AI Integration, Gemini AI, Educational AI Tools</p>
-     </div>
-     <div class="text-center p-8 themed-bg-secondary rounded-2xl themed-card-shadow card-hover">
-      <div class="skill-icon bg-green-100 text-green-600 mx-auto">
-       🌐
-      </div>
-      <h3 class="font-bold themed-text-primary mb-3 text-lg">Web Development</h3>
-      <p class="themed-text-secondary text-sm leading-relaxed">Frontend Development, Responsive Design, Interactive Applications</p>
-     </div>
-     <div class="text-center p-8 themed-bg-secondary rounded-2xl themed-card-shadow card-hover">
-      <div class="skill-icon bg-purple-100 text-purple-600 mx-auto">
-       🎓
-      </div>
-      <h3 class="font-bold themed-text-primary mb-3 text-lg">Educational Technology</h3>
-      <p class="themed-text-secondary text-sm leading-relaxed">EdTech Solutions, Learning Management, Assessment Tools</p>
-     </div>
-     <div class="text-center p-8 themed-bg-secondary rounded-2xl themed-card-shadow card-hover">
-      <div class="skill-icon bg-orange-100 text-orange-600 mx-auto">
-       ⚡
-      </div>
-      <h3 class="font-bold themed-text-primary mb-3 text-lg">Performance Optimization</h3>
-      <p class="themed-text-secondary text-sm leading-relaxed">Fast Loading, User Experience, Efficient Workflows</p>
-     </div>
-    </div>
-   </div>
-  </section><!-- Contact Section -->
-  <section id="contact" class="py-12 sm:py-16 lg:py-20 themed-bg-secondary">
-   <div class="container mx-auto px-4 sm:px-6">
-    <div class="max-w-4xl mx-auto text-center">
-     <h2 class="text-3xl sm:text-4xl font-bold themed-text-primary mb-3 sm:mb-4">Let's Work Together</h2>
-     <p class="text-base sm:text-lg lg:text-xl themed-text-secondary mb-8 sm:mb-10 lg:mb-12 max-w-2xl mx-auto px-4">Interested in collaborating on educational technology projects or have ideas to improve learning experiences? I'd love to hear from you!</p>
-     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-10 lg:mb-12">
-      <div class="p-6 themed-bg-tertiary rounded-2xl">
-       <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mx-auto mb-4">
-        📧
-       </div>
-       <h3 class="font-bold themed-text-primary mb-2">Email</h3>
-       <p class="themed-text-secondary text-sm">melbhert.boiser@deped.gov.ph</p>
-      </div>
-      <div class="p-6 themed-bg-tertiary rounded-2xl">
-       <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-xl mx-auto mb-4">
-        🎓
-       </div>
-       <h3 class="font-bold themed-text-primary mb-2">Institution</h3>
-       <p class="themed-text-secondary text-sm">Department of Education</p>
-      </div>
-      <div class="p-6 themed-bg-tertiary rounded-2xl">
-       <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl mx-auto mb-4">
-        💡
-       </div>
-       <h3 class="font-bold themed-text-primary mb-2">Focus</h3>
-       <p class="themed-text-secondary text-sm">Educational Innovation</p>
-      </div>
-     </div>
-     <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"><button onclick="window.open('mailto:melbhert.boiser@deped.gov.ph', '_blank')" class="bg-gray-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base"> 📧 Send Message </button> <button onclick="showGCashModal()" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base"> ☕ Buy Me Coffee </button> <button onclick="scrollToTop()" class="border-2 border-gray-900 themed-text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-gray-900 hover:text-white transition-all duration-300 text-sm sm:text-base"> ↑ Back to Top </button>
-     </div>
-    </div>
-   </div>
-  </section><!-- Footer -->
-  <footer class="bg-gray-900 text-white py-12">
-   <div class="container mx-auto px-6">
-    <div class="text-center">
-     <div class="text-2xl font-bold gradient-text mb-4">
-      iamtr3b
-     </div>
-     <p class="text-gray-400 mb-6">Empowering education through technology</p>
-     <div class="border-t border-gray-800 pt-6">
-      <p class="text-gray-500 text-sm">© 2025 iamtr3b. All rights reserved.</p>
-     </div>
-    </div>
-   </div>
-  </footer>
-  <script>
-        // Mobile menu functionality
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            const menuIcon = document.getElementById('menu-icon');
-            const closeIcon = document.getElementById('close-icon');
-            
-            if (mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.remove('hidden');
-                menuIcon.classList.add('hidden');
-                closeIcon.classList.remove('hidden');
-            } else {
-                mobileMenu.classList.add('hidden');
-                menuIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iamtr3b | Melbhert A. Boiser - DepEd Secondary Teacher & Innovator</title>
+    <meta name="description" content="Portfolio of Melbhert A. Boiser (iamtr3b), a passionate DepEd Secondary Teacher and EdTech Innovator creating tools to empower educators and enhance student learning." />
+    
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:title" content="iamtr3b | Melbhert A. Boiser Portfolio" />
+    <meta property="og:description" content="DepEd Secondary Teacher & EdTech Innovator bridging the gap between traditional teaching and modern technology." />
+    <meta property="og:image" content="https://drive.google.com/thumbnail?id=18WwdDV8hpKrXQDN393CtTBQVmA54izQS&sz=w1000" />
+    <meta property="og:type" content="website" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="iamtr3b | Melbhert A. Boiser Portfolio" />
+    <meta name="twitter:description" content="DepEd Secondary Teacher & EdTech Innovator bridging the gap between traditional teaching and modern technology." />
+    <meta name="twitter:image" content="https://drive.google.com/thumbnail?id=18WwdDV8hpKrXQDN393CtTBQVmA54izQS&sz=w1000" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: '#10b981', // Emerald 500
+              secondary: '#3b82f6', // Blue 500
+              dark: '#020617', // Slate 950
+              'dark-lighter': '#0f172a', // Slate 900
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            animation: {
+              'blob': 'blob 7s infinite',
+              'fade-in': 'fadeIn 0.5s ease-out forwards',
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'scroll': 'scroll 1.5s infinite',
+            },
+            keyframes: {
+              blob: {
+                '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                '100%': { transform: 'translate(0px, 0px) scale(1)' },
+              },
+              fadeIn: {
+                '0%': { opacity: '0', transform: 'translateY(10px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              scroll: {
+                '0%': { transform: 'translateY(0)', opacity: '1' },
+                '100%': { transform: 'translateY(10px)', opacity: '0' }
+              }
             }
-        }
-
-        // Theme functionality
-        function toggleTheme() {
-            const body = document.body;
-            const toggle = document.querySelector('.theme-toggle');
-            const slider = document.querySelector('.theme-toggle-slider');
-            
-            if (body.classList.contains('light')) {
-                body.classList.remove('light');
-                body.classList.add('dark');
-                toggle.classList.add('active');
-                slider.textContent = '🌙';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                body.classList.remove('dark');
-                body.classList.add('light');
-                toggle.classList.remove('active');
-                slider.textContent = '☀️';
-                localStorage.setItem('theme', 'light');
-            }
-        }
-
-        // Initialize theme on page load
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const body = document.body;
-            const toggle = document.querySelector('.theme-toggle');
-            const slider = document.querySelector('.theme-toggle-slider');
-            
-            if (savedTheme === 'dark') {
-                body.classList.remove('light');
-                body.classList.add('dark');
-                toggle.classList.add('active');
-                slider.textContent = '🌙';
-            } else {
-                body.classList.remove('dark');
-                body.classList.add('light');
-                toggle.classList.remove('active');
-                slider.textContent = '☀️';
-            }
-        }
-
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-
-        function scrollToSection(sectionId) {
-            const element = document.getElementById(sectionId);
-            if (element) {
-                const navHeight = 80;
-                const elementPosition = element.offsetTop - navHeight;
-                window.scrollTo({
-                    top: elementPosition,
-                    behavior: 'smooth'
-                });
-            }
-        }
-
-        function openProjectLink(url, projectName) {
-            showLinkModal(url, projectName);
-        }
-
-        function showLinkModal(url, projectName) {
-            const body = document.body;
-            const isDark = body.classList.contains('dark');
-            
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-            modal.innerHTML = `
-                <div class="${isDark ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} rounded-2xl p-8 max-w-md mx-4 text-center shadow-2xl">
-                    <h3 class="text-xl font-bold mb-4">Open ${projectName}</h3>
-                    <p class="${isDark ? 'text-gray-300' : 'text-gray-600'} mb-6">The link might be blocked by your browser. You can copy the URL below and paste it in a new tab:</p>
-                    <div class="${isDark ? 'bg-gray-700 border-gray-600 text-gray-200' : 'bg-gray-100 border-gray-200 text-gray-700'} border p-4 rounded-lg mb-6 text-sm break-all font-mono">${url}</div>
-                    <div class="flex gap-3 justify-center">
-                        <button onclick="copyToClipboard('${url}')" class="bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 font-medium transition-all">
-                            Copy Link
-                        </button>
-                        <button onclick="closeModal()" class="${isDark ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'} border-2 px-6 py-3 rounded-lg font-medium transition-all">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(modal);
-            
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    closeModal();
-                }
-            });
-        }
-
-        function copyToClipboard(text) {
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(function() {
-                    showCopySuccess();
-                }).catch(function() {
-                    fallbackCopy(text);
-                });
-            } else {
-                fallbackCopy(text);
-            }
-        }
-
-        function fallbackCopy(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            textArea.style.top = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                showCopySuccess();
-            } catch (err) {
-                alert('Copy failed. Please manually copy this link: ' + text);
-            }
-            
-            document.body.removeChild(textArea);
-        }
-
-        function showCopySuccess() {
-            const button = event.target;
-            const originalText = button.textContent;
-            const originalClass = button.className;
-            button.textContent = 'Copied!';
-            button.className = 'bg-green-500 text-white px-6 py-3 rounded-lg font-medium';
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.className = originalClass;
-            }, 2000);
-        }
-
-        function closeModal() {
-            const modal = document.querySelector('.fixed.inset-0');
-            if (modal) {
-                modal.remove();
-            }
-        }
-
-        function showGCashModal() {
-            const body = document.body;
-            const isDark = body.classList.contains('dark');
-            
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-            modal.innerHTML = `
-                <div class="${isDark ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} rounded-2xl p-8 max-w-md mx-4 text-center shadow-2xl">
-                    <div class="text-4xl mb-4">☕</div>
-                    <h3 class="text-xl font-bold mb-4">Support My Work</h3>
-                    <p class="${isDark ? 'text-gray-300' : 'text-gray-600'} mb-6">If you find my educational tools helpful, consider buying me a coffee! Your support helps me create more innovative solutions for educators.</p>
-                    <div class="${isDark ? 'bg-gray-700 border-gray-600' : 'bg-blue-50 border-blue-200'} border-2 p-6 rounded-lg mb-6">
-                        <div class="text-2xl mb-2">📱</div>
-                        <h4 class="font-bold mb-2">GCash Number</h4>
-                        <div class="${isDark ? 'bg-gray-600 text-gray-200' : 'bg-white text-gray-800'} p-3 rounded-lg font-mono text-lg font-bold border">09173006298</div>
-                        <p class="${isDark ? 'text-gray-400' : 'text-gray-600'} text-sm mt-2">Send to: Melbhert A. Boiser</p>
-                    </div>
-                    <div class="flex gap-3 justify-center">
-                        <button onclick="copyGCashNumber()" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-600 hover:to-purple-700 font-medium transition-all">
-                            📋 Copy Number
-                        </button>
-                        <button onclick="closeModal()" class="${isDark ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : 'border-gray-300 text-gray-700 hover:bg-gray-50'} border-2 px-6 py-3 rounded-lg font-medium transition-all">
-                            Close
-                        </button>
-                    </div>
-                    <p class="${isDark ? 'text-gray-400' : 'text-gray-500'} text-xs mt-4">Thank you for supporting educational innovation! 🙏</p>
-                </div>
-            `;
-            document.body.appendChild(modal);
-            
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    closeModal();
-                }
-            });
-        }
-
-        function copyGCashNumber() {
-            const gcashNumber = '09173006298';
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(gcashNumber).then(function() {
-                    showGCashCopySuccess();
-                }).catch(function() {
-                    fallbackCopyGCash(gcashNumber);
-                });
-            } else {
-                fallbackCopyGCash(gcashNumber);
-            }
-        }
-
-        function fallbackCopyGCash(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            textArea.style.top = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                showGCashCopySuccess();
-            } catch (err) {
-                alert('Copy failed. GCash number: ' + text);
-            }
-            
-            document.body.removeChild(textArea);
-        }
-
-        function showGCashCopySuccess() {
-            const button = event.target;
-            const originalText = button.textContent;
-            const originalClass = button.className;
-            button.textContent = '✅ Copied!';
-            button.className = 'bg-green-500 text-white px-6 py-3 rounded-lg font-medium';
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.className = originalClass;
-            }, 2000);
-        }
-
-        // Initialize everything on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize theme
-            initTheme();
-            
-            // Smooth animations on scroll
-            const cards = document.querySelectorAll('.card-hover');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            });
-
-            cards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(card);
-            });
-        });
+          },
+        },
+      }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99fedbb71566166a',t:'MTc2MzM3ODYzMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #020617;
+        color: #f8fafc;
+        overflow-x: hidden;
+      }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #020617;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #475569;
+      }
+      
+      /* Modern Grid Background Pattern */
+      .bg-grid-white {
+        background-size: 50px 50px;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      }
+    </style>
+
+    <!-- Import Map: Strictly using React 18 to avoid version conflicts -->
+    <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+    "lucide-react": "https://esm.sh/lucide-react@0.344.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel" data-type="module">
+      import React, { useState, useEffect } from 'react';
+      import ReactDOM from 'react-dom/client';
+      import { 
+        Menu, X, BookOpen, ArrowRight, ExternalLink, Mail, 
+        Coffee, Copy, Check, Bot, Globe, GraduationCap, Zap,
+        Github, Linkedin, Twitter, Facebook
+      } from 'lucide-react';
+
+      // --- CONSTANTS & DATA ---
+      
+      const PORTFOLIO_OWNER = "Melbhert A. Boiser";
+      const PORTFOLIO_ROLE = "DepEd Secondary Teacher";
+      const PORTFOLIO_TAGLINE = "Passionate educator bridging the gap between traditional teaching and modern technology.";
+      const PORTFOLIO_SUB_TAGLINE = "I create innovative tools to empower fellow educators and enhance student learning experiences.";
+      const PROFILE_IMAGE_URL = "https://drive.google.com/thumbnail?id=18WwdDV8hpKrXQDN393CtTBQVmA54izQS&sz=w1000";
+
+      // Enum converted to Object for JS
+      const SkillCategory = {
+        AI: 'Artificial Intelligence',
+        WEB: 'Web Development',
+        EDTECH: 'Educational Technology',
+        PERFORMANCE: 'Performance Optimization',
+      };
+
+      const SOCIAL_LINKS = [
+        { platform: 'Facebook', url: 'https://www.facebook.com/tr3blem', icon: Facebook },
+        { platform: 'X', url: 'https://x.com/treblem28', icon: Twitter },
+        { platform: 'LinkedIn', url: 'https://www.linkedin.com/in/melbhert-boiser-55531b248/', icon: Linkedin },
+        { platform: 'GitHub', url: 'https://github.com/treblem', icon: Github },
+        { platform: 'Email', url: 'mailto:melbhert.boiser@deped.gov.ph', icon: Mail },
+      ];
+
+      const PROJECTS = [
+        {
+          id: 15,
+          title: "DepEd TOS Generator",
+          description: "K-12 & MELCs Aligned Item Distribution Tool that automatically generates comprehensive Table of Specifications for DepEd assessments, ensuring proper alignment with curriculum standards and learning competencies.",
+          tags: ["Assessment", "DepEd Tools", "MELCs"],
+          imageUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=1000&auto=format&fit=crop",
+          demoUrl: "https://gemini.google.com/share/d0f03d582248",
+          repoUrl: "#"
+        },
+        {
+          id: 14,
+          title: "Poll-Voting System",
+          description: "Digital polling and voting platform designed for educational institutions to conduct student elections, surveys, and classroom polls with real-time results and analytics.",
+          tags: ["Voting System", "Analytics", "Education"],
+          imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
+          demoUrl: "https://iamtr3b.my.canva.site/sample1",
+          repoUrl: "#"
+        },
+        {
+          id: 13,
+          title: "DepEd PMES DLL Generator",
+          description: "Intelligent Daily Lesson Log generator specifically designed for DepEd's Performance Monitoring and Evaluation System, streamlining lesson planning with AI-powered content creation.",
+          tags: ["AI Tool", "DepEd Systems", "Productivity"],
+          imageUrl: "https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=1000&auto=format&fit=crop",
+          demoUrl: "https://gemini.google.com/share/0d813758e219",
+          repoUrl: "#"
+        },
+        {
+          id: 12,
+          title: "Streaming App",
+          description: "Modern streaming platform featuring a Netflix-inspired interface with movie browsing, search functionality, and responsive design for an optimal viewing experience.",
+          tags: ["React", "Streaming", "UI/UX"],
+          imageUrl: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=1000&auto=format&fit=crop",
+          demoUrl: "https://tr3bflix.netlify.app/",
+          repoUrl: "#"
+        },
+        {
+          id: 11,
+          title: "AI Presentation Generator",
+          description: "Intelligent presentation creation tool powered by Google AI Studio that automatically generates comprehensive slide decks from topics, complete with structured content and educational frameworks.",
+          tags: ["AI Tools", "Productivity", "Presentation"],
+          imageUrl: "https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=1000&auto=format&fit=crop",
+          demoUrl: "https://aistudio.google.com/apps/drive/1IsQWpIdMByoDnkLf8A6Jw23w7S17akP6",
+          repoUrl: "#"
+        },
+        {
+          id: 10,
+          title: "CNHS ICT CSS",
+          description: "Online grade management application for ICT Computer Systems Servicing students at Camambugan National High School to access their academic performance and track progress.",
+          tags: ["ICT Education", "Web Platform", "Student Portal"],
+          imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1000&auto=format&fit=crop",
+          demoUrl: "https://cnhs-ictcss.netlify.app/",
+          repoUrl: "#"
+        },
+        {
+          id: 9,
+          title: "MPS Calc",
+          description: "Mean Percentage Score calculator designed to help educators efficiently compute and analyze student performance metrics with detailed statistical insights.",
+          tags: ["Analytics", "Education", "DepEd Tools"],
+          imageUrl: "https://images.unsplash.com/photo-1596495578065-6e0763fa1178?q=80&w=1000&auto=format&fit=crop",
+          demoUrl: "https://iamtr3b.my.canva.site/calcmps",
+          repoUrl: "#"
+        },
+        {
+          id: 8,
+          title: "UN Reviewer",
+          description: "Interactive educational tool designed to help students learn about the United Nations, its history, structure, and global impact through engaging content.",
+          tags: ["Education", "Interactive", "Social Studies"],
+          imageUrl: "https://images.unsplash.com/photo-1532635241-17e820acc59f?q=80&w=1000&auto=format&fit=crop",
+          demoUrl: "https://iamtr3b.my.canva.site/unreviewer",
+          repoUrl: "#"
+        },
+        {
+          id: 7,
+          title: "DepEd Lesson Plan Maker with AI",
+          description: "Intelligent lesson planning assistant that leverages AI to help educators create comprehensive, standards-aligned lesson plans efficiently.",
+          tags: ["AI Assistant", "Education", "Planning"],
+          imageUrl: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000&auto=format&fit=crop",
+          demoUrl: "https://aistudio.google.com/apps/drive/1-mhDmi66bGcwXIGZextTd740u52LCSQ8",
+          repoUrl: "#"
+        },
+        {
+          id: 5,
+          title: "AI Photo Maker",
+          description: "Advanced AI-powered image generation tool that creates stunning visuals from text descriptions using cutting-edge machine learning models.",
+          tags: ["Generative AI", "Computer Vision", "Creative Tools"],
+          imageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop",
+          demoUrl: "https://gemini.google.com/share/e2e9dc267612",
+          repoUrl: "#"
+        },
+        {
+          id: 6,
+          title: "DepEd QRA Calculator",
+          description: "Comprehensive Quarterly Report On Assessment calculator designed specifically for DepEd educators to streamline performance evaluation processes.",
+          tags: ["Productivity", "Analytics", "DepEd Tools"],
+          imageUrl: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1000&auto=format&fit=crop",
+          demoUrl: "https://iamtr3b.my.canva.site/calqra",
+          repoUrl: "#"
+        }
+      ];
+
+      const SKILLS = [
+        { name: "Machine Learning", category: SkillCategory.AI },
+        { name: "AI Integration", category: SkillCategory.AI },
+        { name: "Gemini AI", category: SkillCategory.AI },
+        { name: "Educational AI Tools", category: SkillCategory.AI },
+        
+        { name: "Frontend Development", category: SkillCategory.WEB },
+        { name: "Responsive Design", category: SkillCategory.WEB },
+        { name: "Interactive Applications", category: SkillCategory.WEB },
+
+        { name: "EdTech Solutions", category: SkillCategory.EDTECH },
+        { name: "Learning Management", category: SkillCategory.EDTECH },
+        { name: "Assessment Tools", category: SkillCategory.EDTECH },
+
+        { name: "Fast Loading", category: SkillCategory.PERFORMANCE },
+        { name: "User Experience", category: SkillCategory.PERFORMANCE },
+        { name: "Efficient Workflows", category: SkillCategory.PERFORMANCE },
+      ];
+
+      // --- COMPONENTS ---
+
+      const Navbar = () => {
+        const [isOpen, setIsOpen] = useState(false);
+        const [scrolled, setScrolled] = useState(false);
+
+        useEffect(() => {
+          const handleScroll = () => setScrolled(window.scrollY > 20);
+          window.addEventListener('scroll', handleScroll);
+          return () => window.removeEventListener('scroll', handleScroll);
+        }, []);
+
+        const navLinks = [
+          { name: 'About', href: '#about' },
+          { name: 'Skills', href: '#skills' },
+          { name: 'Projects', href: '#projects' },
+          { name: 'Contact', href: '#contact' },
+        ];
+
+        return (
+          <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-dark/80 backdrop-blur-xl border-b border-white/5 py-4 shadow-lg' : 'bg-transparent py-6'}`}>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+              <div className="flex items-center space-x-2 group cursor-pointer">
+                <div className="bg-primary/10 p-2 rounded-lg border border-primary/20 group-hover:bg-primary/20 transition-colors">
+                  <BookOpen className="text-primary h-5 w-5" />
+                </div>
+                <span className="text-xl font-bold text-white tracking-tight group-hover:text-primary transition-colors">
+                  iamtr3b
+                </span>
+              </div>
+
+              {/* Desktop Menu */}
+              <div className="hidden md:flex items-center space-x-1">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-full transition-all"
+                  >
+                    {link.name}
+                  </a>
+                ))}
+                <a 
+                  href="#contact" 
+                  className="ml-4 px-5 py-2 text-sm font-bold text-dark bg-primary hover:bg-emerald-400 rounded-full transition-colors shadow-[0_0_15px_-3px_rgba(16,185,129,0.4)]"
+                >
+                  Collaborate
+                </a>
+              </div>
+
+              {/* Mobile Menu Button */}
+              <div className="md:hidden">
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="text-slate-300 hover:text-white focus:outline-none p-2"
+                >
+                  {isOpen ? <X /> : <Menu />}
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile Menu Dropdown */}
+            {isOpen && (
+              <div className="md:hidden bg-dark border-b border-white/10 absolute w-full shadow-2xl">
+                <div className="px-4 pt-2 pb-6 space-y-2">
+                  {navLinks.map((link) => (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className="block px-4 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {link.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </nav>
+        );
+      };
+
+      const BuyMeCoffee = ({ className = '', variant = 'outline', label = 'Buy me a coffee' }) => {
+        const [isOpen, setIsOpen] = useState(false);
+        const [copied, setCopied] = useState(false);
+        const GCASH_NUMBER = "09173006298";
+
+        const handleCopy = () => {
+          navigator.clipboard.writeText(GCASH_NUMBER);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        };
+
+        const getButtonStyles = () => {
+          const base = "group inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-xl transition-all transform active:scale-95";
+          switch (variant) {
+            case 'primary':
+              return `${base} text-dark bg-primary hover:bg-emerald-400 shadow-[0_0_20px_-5px_rgba(16,185,129,0.4)] hover:-translate-y-1 font-bold`;
+            case 'outline':
+              return `${base} border border-white/10 text-white bg-white/5 hover:bg-white/10 backdrop-blur-sm hover:-translate-y-1`;
+            case 'ghost':
+              return `${base} text-slate-400 hover:text-white hover:bg-white/5`;
+            default:
+              return base;
+          }
+        };
+
+        return (
+          <React.Fragment>
+            <button
+              onClick={() => setIsOpen(true)}
+              className={`${getButtonStyles()} ${className}`}
+            >
+              <Coffee className={`mr-2 -ml-1 h-5 w-5 transition-colors ${variant === 'primary' ? 'text-dark' : 'text-primary group-hover:text-emerald-300'}`} />
+              {label}
+            </button>
+
+            {isOpen && (
+              <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-dark/80 backdrop-blur-md animate-fade-in">
+                <div className="bg-dark-lighter border border-white/10 rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden transform transition-all scale-100 animate-blob">
+                  {/* Header */}
+                  <div className="bg-gradient-to-br from-primary/20 to-dark p-6 text-center relative border-b border-white/5">
+                    <button
+                      onClick={() => setIsOpen(false)}
+                      className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-full"
+                    >
+                      <X className="h-5 w-5" />
+                    </button>
+                    <div className="bg-dark w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-primary/30 shadow-[0_0_20px_-5px_rgba(16,185,129,0.5)]">
+                      <Coffee className="h-8 w-8 text-primary" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white">Buy me a coffee</h3>
+                    <p className="text-slate-400 text-sm mt-2 font-medium">Support my educational tools & open source work!</p>
+                  </div>
+
+                  {/* Body */}
+                  <div className="p-6 space-y-6 bg-dark">
+                    <div className="text-center">
+                      <p className="text-slate-300 text-xs uppercase tracking-widest font-bold mb-3">Send support via GCash</p>
+                      <div className="bg-dark-lighter border border-white/10 rounded-xl p-1 flex items-center justify-between group hover:border-primary/50 transition-colors shadow-lg">
+                        <div className="flex-1 text-center py-3 pl-3">
+                          <span className="text-xl font-mono font-bold text-white tracking-wider">{GCASH_NUMBER}</span>
+                        </div>
+                        <button
+                          onClick={handleCopy}
+                          className="p-3 bg-white/5 hover:bg-primary hover:text-dark rounded-lg transition-all duration-300 text-primary m-1"
+                          title="Copy number"
+                        >
+                          {copied ? <Check className="h-5 w-5" /> : <Copy className="h-5 w-5" />}
+                        </button>
+                      </div>
+                      {copied && <p className="text-primary text-xs mt-2 font-medium animate-pulse">Copied to clipboard!</p>}
+                    </div>
+
+                    <div className="text-center px-4">
+                      <p className="text-xs text-slate-500 italic">
+                        "Every contribution helps me maintain servers and build better tools for teachers."
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {/* Footer Action */}
+                  <div className="p-4 bg-dark-lighter border-t border-white/5">
+                      <button 
+                          onClick={() => setIsOpen(false)}
+                          className="w-full py-3 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium rounded-xl transition-colors text-sm"
+                      >
+                          Close
+                      </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </React.Fragment>
+        );
+      };
+
+      const Hero = () => {
+        const [imageError, setImageError] = useState(false);
+
+        return (
+          <section id="about" className="relative min-h-screen flex items-center justify-center pt-20 pb-12 overflow-hidden">
+            {/* Modern Grid Background */}
+            <div className="absolute inset-0 bg-grid-white pointer-events-none opacity-[0.15]"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-dark/0 via-dark/50 to-dark pointer-events-none"></div>
+
+            {/* Background Blurs */}
+            <div className="absolute top-20 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full mix-blend-screen filter blur-[120px] opacity-40 animate-blob"></div>
+            <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-secondary/10 rounded-full mix-blend-screen filter blur-[120px] opacity-40 animate-blob animation-delay-2000"></div>
+            
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+              <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-20">
+                
+                {/* Left Content: Text */}
+                <div className="flex-1 text-center lg:text-left">
+                  <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-emerald-400 text-sm font-medium mb-6 animate-fade-in cursor-default">
+                    <span className="relative flex h-2 w-2 mr-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    {PORTFOLIO_ROLE}
+                  </div>
+                  
+                  <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6 animate-fade-in leading-[1.1]" style={{ animationDelay: '0.1s' }}>
+                    <span className="text-slate-300 text-3xl md:text-4xl font-bold block mb-2">Hello, I am</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">{PORTFOLIO_OWNER}</span>
+                  </h1>
+
+                  <p className="mt-4 text-xl md:text-2xl text-slate-300 font-medium animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                    {PORTFOLIO_TAGLINE}
+                  </p>
+                  
+                  <p className="mt-4 text-lg text-slate-400 animate-fade-in leading-relaxed max-w-2xl mx-auto lg:mx-0" style={{ animationDelay: '0.3s' }}>
+                    {PORTFOLIO_SUB_TAGLINE}
+                  </p>
+
+                  <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mt-10 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                    <a href="#projects" className="group inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-xl text-dark bg-primary hover:bg-emerald-400 transition-all transform hover:-translate-y-1 shadow-[0_0_20px_-5px_rgba(16,185,129,0.4)]">
+                      View Initiatives
+                      <ArrowRight className="ml-2 -mr-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                    <BuyMeCoffee variant="outline" />
+                  </div>
+                </div>
+
+                {/* Right Content: Image */}
+                <div className="flex-1 flex justify-center lg:justify-end animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                  <div className="relative w-72 h-72 md:w-[400px] md:h-[400px] group">
+                    {/* Decoration ring */}
+                    <div className="absolute -inset-4 rounded-2xl bg-gradient-to-r from-primary to-secondary opacity-30 blur-lg group-hover:opacity-50 transition-opacity duration-500 animate-pulse-slow"></div>
+                    
+                    {/* Image Container - using rounded-2xl for card style */}
+                    <div className="relative w-full h-full rounded-3xl overflow-hidden border-4 border-dark-lighter shadow-2xl ring-4 ring-white/5 transform md:rotate-3 group-hover:rotate-0 transition-all duration-500 ease-out bg-dark-lighter">
+                      <img 
+                        src={imageError ? `https://ui-avatars.com/api/?name=Melbhert+Boiser&background=10b981&color=fff&size=512&font-size=0.33&bold=true` : PROFILE_IMAGE_URL} 
+                        alt={PORTFOLIO_OWNER} 
+                        onError={() => setImageError(true)}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </div>
+
+                    {/* Floating Badge */}
+                    <div className="absolute -bottom-4 -right-4 bg-dark-lighter/90 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-xl transform rotate-0 group-hover:-translate-y-2 transition-transform duration-500">
+                      <div className="flex items-center gap-3">
+                        <div className="bg-primary/20 p-2 rounded-lg">
+                          <BookOpen className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Teacher</p>
+                          <p className="text-sm font-bold text-white">iamtr3b</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            
+            {/* Scroll indicator */}
+            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer opacity-50 hover:opacity-100 transition-opacity hidden md:block">
+              <div className="w-6 h-10 border-2 border-slate-500 rounded-full flex justify-center p-1">
+                <div className="w-1 h-2 bg-slate-500 rounded-full animate-scroll"></div>
+              </div>
+            </div>
+          </section>
+        );
+      };
+
+      const Skills = () => {
+        // Group skills by category
+        const skillsByCategory = SKILLS.reduce((acc, skill) => {
+          if (!acc[skill.category]) {
+            acc[skill.category] = [];
+          }
+          acc[skill.category].push(skill);
+          return acc;
+        }, {});
+
+        // Map categories to specific icons
+        const categoryIcons = {
+          [SkillCategory.AI]: Bot,
+          [SkillCategory.WEB]: Globe,
+          [SkillCategory.EDTECH]: GraduationCap,
+          [SkillCategory.PERFORMANCE]: Zap,
+        };
+
+        return (
+          <section id="skills" className="py-32 bg-dark relative overflow-hidden">
+             {/* Decoration */}
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <div className="text-center mb-20">
+                <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">Skills & Technologies</h2>
+                <p className="text-slate-400 max-w-2xl mx-auto text-lg">
+                  The expertise and tools I use to create innovative educational solutions
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {Object.keys(skillsByCategory).map((category, index) => {
+                  const Icon = categoryIcons[category] || Globe; // Default to Globe if no icon found
+                  
+                  return (
+                    <div 
+                      key={category} 
+                      className="group bg-dark-lighter/50 backdrop-blur-sm p-8 rounded-3xl border border-white/5 hover:border-primary/20 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2"
+                      style={{ transitionDelay: `${index * 100}ms` }}
+                    >
+                      <div className="flex items-center mb-6">
+                        <div className="bg-primary/10 p-3 rounded-xl border border-primary/20 group-hover:bg-primary/20 transition-colors mr-4">
+                          <Icon className="h-6 w-6 text-primary" />
+                        </div>
+                        <h3 className="text-xl font-bold text-white leading-tight">
+                          {category}
+                        </h3>
+                      </div>
+                      
+                      <div className="flex flex-wrap gap-3">
+                        {skillsByCategory[category].map((skill) => (
+                          <span 
+                            key={skill.name}
+                            className="px-4 py-2 bg-white/5 text-slate-300 rounded-xl text-sm font-medium border border-transparent hover:border-white/10 hover:bg-white/10 hover:text-white transition-all cursor-default"
+                          >
+                            {skill.name}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        );
+      };
+
+      const Projects = () => {
+        return (
+          <section id="projects" className="py-32 bg-dark relative">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex flex-col md:flex-row justify-between items-end mb-16">
+                <div>
+                  <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">Featured Projects</h2>
+                  <p className="text-slate-400 text-lg">Selected works that showcase my passion for quality engineering.</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                {PROJECTS.map((project) => (
+                  <div key={project.id} className="group relative bg-dark-lighter rounded-3xl overflow-hidden border border-white/5 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5">
+                    {/* Image Area */}
+                    <div className="relative h-72 overflow-hidden">
+                      <div className="absolute inset-0 bg-dark/20 group-hover:bg-dark/0 transition-colors duration-500 z-10"></div>
+                      <img 
+                        src={project.imageUrl} 
+                        alt={project.title} 
+                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 grayscale group-hover:grayscale-0"
+                      />
+                      
+                      {/* Floating Actions */}
+                      <div className="absolute top-4 right-4 flex space-x-3 z-20 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                        <a 
+                          href={project.demoUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="p-3 bg-dark/90 backdrop-blur-md border border-white/10 text-white rounded-full hover:bg-primary hover:border-primary hover:text-dark transition-all shadow-lg" 
+                          title="View Demo"
+                        >
+                          <ExternalLink className="h-5 w-5" />
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Content Area */}
+                    <div className="p-8">
+                      <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-primary transition-colors">{project.title}</h3>
+                      <p className="text-slate-400 mb-6 line-clamp-2 leading-relaxed">{project.description}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {project.tags.map(tag => (
+                          <span key={tag} className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white/5 text-slate-300 border border-white/5 group-hover:border-white/10 transition-colors">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      };
+
+      const Contact = () => {
+        return (
+          <section id="contact" className="py-24 bg-dark-lighter relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary opacity-50"></div>
+            
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-8">
+                <Mail className="h-8 w-8 text-primary" />
+              </div>
+              
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Let's build something together.</h2>
+              <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto">
+                I'm currently open to new opportunities. Whether you have a question or just want to say hi, my inbox is always open.
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
+                <a href="mailto:melbhert.boiser@deped.gov.ph" className="px-8 py-4 bg-primary text-dark font-bold rounded-xl hover:bg-emerald-400 transition-all transform hover:-translate-y-1 shadow-[0_0_20px_-5px_rgba(16,185,129,0.4)] w-full sm:w-auto inline-flex justify-center items-center">
+                  Say Hello
+                </a>
+                <BuyMeCoffee variant="outline" className="w-full sm:w-auto" />
+              </div>
+
+              <div className="flex justify-center space-x-8">
+                {SOCIAL_LINKS.map((social) => {
+                  const Icon = social.icon;
+                  return (
+                    <a 
+                      key={social.platform}
+                      href={social.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-slate-500 hover:text-white transition-colors transform hover:scale-110"
+                    >
+                      <Icon className="h-6 w-6" />
+                      <span className="sr-only">{social.platform}</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        );
+      };
+
+      const Footer = () => {
+        return (
+          <footer className="bg-dark py-8 border-t border-white/5">
+            <div className="max-w-7xl mx-auto px-4 text-center">
+              <p className="text-slate-500 text-sm">
+                © 2025 iamtr3b
+              </p>
+            </div>
+          </footer>
+        );
+      };
+
+      const App = () => {
+        // Basic smooth scroll behavior for anchor links
+        useEffect(() => {
+          const handleAnchorClick = (e) => {
+            const target = e.target;
+            const anchor = target.closest('a');
+            if (anchor && anchor.getAttribute('href')?.startsWith('#')) {
+              e.preventDefault();
+              const id = anchor.getAttribute('href')?.substring(1);
+              const element = document.getElementById(id || '');
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+              }
+            }
+          };
+          document.addEventListener('click', handleAnchorClick);
+          return () => document.removeEventListener('click', handleAnchorClick);
+        }, []);
+
+        return (
+          <div className="min-h-screen bg-dark text-slate-300 selection:bg-primary selection:text-white">
+            <Navbar />
+            <main>
+              <Hero />
+              <Skills />
+              <Projects />
+              <Contact />
+            </main>
+            <Footer />
+          </div>
+        );
+      };
+
+      const rootElement = document.getElementById('root');
+      if (!rootElement) {
+        throw new Error("Could not find root element to mount to");
+      }
+
+      const root = ReactDOM.createRoot(rootElement);
+      root.render(
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      );
+    </script>
+  </body>
 </html>
