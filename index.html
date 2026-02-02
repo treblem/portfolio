@@ -40,6 +40,7 @@
               'fade-in': 'fadeIn 0.5s ease-out forwards',
               'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
               'scroll': 'scroll 1.5s infinite',
+              'float': 'float 6s ease-in-out infinite',
             },
             keyframes: {
               blob: {
@@ -55,6 +56,11 @@
               scroll: {
                 '0%': { transform: 'translateY(0)', opacity: '1' },
                 '100%': { transform: 'translateY(10px)', opacity: '0' }
+              },
+              float: {
+                '0%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-10px)' },
+                '100%': { transform: 'translateY(0px)' },
               }
             }
           },
@@ -95,44 +101,26 @@
                           linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
       }
     </style>
-
-    <!-- Import Map: Strictly using React 18.2.0 to avoid version conflicts -->
     <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@18.2.0",
-    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+    "react": "https://esm.sh/react@18.3.1",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
     "lucide-react": "https://esm.sh/lucide-react@0.344.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
-    
-    <!-- Babel for JSX -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   </head>
   <body>
     <div id="root"></div>
-
-    <script type="text/babel" data-type="module">
+    <script type="module">
       import React, { useState, useEffect } from 'react';
       import ReactDOM from 'react-dom/client';
-      import { 
-        Menu, X, BookOpen, ArrowRight, ExternalLink, Mail, 
-        Coffee, Copy, Check, Bot, Globe, GraduationCap, Zap,
-        Github, Linkedin, Twitter, Facebook
-      } from 'lucide-react';
+      import { Menu, X, BookOpen, ArrowRight, Bot, Globe, GraduationCap, Zap, ExternalLink, Github, Mail, Facebook, Twitter, Linkedin, Coffee, Copy, Check } from 'lucide-react';
 
-      // --- CONSTANTS & DATA ---
-      
-      const PORTFOLIO_OWNER = "Melbhert A. Boiser";
-      const PORTFOLIO_ROLE = "DepEd Secondary Teacher";
-      const PORTFOLIO_TAGLINE = "Passionate educator bridging the gap between traditional teaching and modern technology.";
-      const PORTFOLIO_SUB_TAGLINE = "I create innovative tools to empower fellow educators and enhance student learning experiences.";
-      const PROFILE_IMAGE_URL = "https://drive.google.com/thumbnail?id=18WwdDV8hpKrXQDN393CtTBQVmA54izQS&sz=w1000";
-
-      // Skill Categories
+      // --- TYPES (from types.ts) ---
       const SkillCategory = {
         AI: 'Artificial Intelligence',
         WEB: 'Web Development',
@@ -140,6 +128,12 @@
         PERFORMANCE: 'Performance Optimization',
       };
 
+      // --- CONSTANTS (from constants.tsx) ---
+      const PORTFOLIO_OWNER = "Melbhert A. Boiser";
+      const PORTFOLIO_ROLE = "DepEd Secondary Teacher";
+      const PORTFOLIO_TAGLINE = "Passionate educator bridging the gap between traditional teaching and modern technology.";
+      const PORTFOLIO_SUB_TAGLINE = "I create innovative tools to empower fellow educators and enhance student learning experiences.";
+      const PROFILE_IMAGE_URL = "https://drive.google.com/thumbnail?id=18WwdDV8hpKrXQDN393CtTBQVmA54izQS&sz=w1000";
       const SOCIAL_LINKS = [
         { platform: 'Facebook', url: 'https://www.facebook.com/tr3blem', icon: Facebook },
         { platform: 'X', url: 'https://x.com/treblem28', icon: Twitter },
@@ -147,154 +141,33 @@
         { platform: 'GitHub', url: 'https://github.com/treblem', icon: Github },
         { platform: 'Email', url: 'mailto:melbhert.boiser@deped.gov.ph', icon: Mail },
       ];
-
       const PROJECTS = [
-        {
-          id: 18,
-          title: "EduDraw",
-          description: "An interactive draw lots application designed to help teachers randomly select students for recitations and tasks, promoting fairness and engagement in the classroom.",
-          tags: ["Randomizer", "Classroom Tool", "Utility"],
-          imageUrl: "https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=1000&auto=format&fit=crop",
-          demoUrl: "https://edudraw.vercel.app/",
-          repoUrl: "#"
-        },
-        {
-          id: 17,
-          title: "Tarpapel Maker",
-          description: "A cheap alternative to tarpaulin printing that splits large images into multiple standard pages. Tarpapel is a portmanteau of 'tarpaulin' and 'papel' (paper).",
-          tags: ["Printing Tool", "Productivity", "Utility"],
-          imageUrl: "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?q=80&w=1000&auto=format&fit=crop",
-          demoUrl: "https://tarpmaker.vercel.app/",
-          repoUrl: "#"
-        },
-        {
-          id: 16,
-          title: "Photo ID Maker",
-          description: "A specialized tool designed to help educators and schools automatically generate and format professional 1x1 and 2x2 ID photos with name tags for student identification.",
-          tags: ["Image Processing", "Productivity", "School Tools"],
-          imageUrl: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1000&auto=format&fit=crop",
-          demoUrl: "https://gemini.google.com/share/6925266d0f97",
-          repoUrl: "#"
-        },
-        {
-          id: 15,
-          title: "DepEd TOS Generator",
-          description: "K-12 & MELCs Aligned Item Distribution Tool that automatically generates comprehensive Table of Specifications for DepEd assessments, ensuring proper alignment with curriculum standards and learning competencies.",
-          tags: ["Assessment", "DepEd Tools", "MELCs"],
-          imageUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=1000&auto=format&fit=crop",
-          demoUrl: "https://gemini.google.com/share/d0f03d582248",
-          repoUrl: "#"
-        },
-        {
-          id: 14,
-          title: "Poll-Voting System",
-          description: "Digital polling and voting platform designed for educational institutions to conduct student elections, surveys, and classroom polls with real-time results and analytics.",
-          tags: ["Voting System", "Analytics", "Education"],
-          imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
-          demoUrl: "https://iamtr3b.my.canva.site/sample1",
-          repoUrl: "#"
-        },
-        {
-          id: 13,
-          title: "DepEd PMES DLL Generator",
-          description: "Intelligent Daily Lesson Log generator specifically designed for DepEd's Performance Monitoring and Evaluation System, streamlining lesson planning with AI-powered content creation.",
-          tags: ["AI Tool", "DepEd Systems", "Productivity"],
-          imageUrl: "https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=1000&auto=format&fit=crop",
-          demoUrl: "https://gemini.google.com/share/6f43c70601dd",
-          repoUrl: "#"
-        },
-        {
-          id: 12,
-          title: "Streaming App",
-          description: "Modern streaming platform featuring a Netflix-inspired interface with movie browsing, search functionality, and responsive design for an optimal viewing experience.",
-          tags: ["React", "Streaming", "UI/UX"],
-          imageUrl: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=1000&auto=format&fit=crop",
-          demoUrl: "https://tr3bflix.netlify.app/",
-          repoUrl: "#"
-        },
-        {
-          id: 11,
-          title: "AI Presentation Generator",
-          description: "Intelligent presentation creation tool powered by Google AI Studio that automatically generates comprehensive slide decks from topics, complete with structured content and educational frameworks.",
-          tags: ["AI Tools", "Productivity", "Presentation"],
-          imageUrl: "https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=1000&auto=format&fit=crop",
-          demoUrl: "https://aistudio.google.com/apps/drive/1IsQWpIdMByoDnkLf8A6Jw23w7S17akP6",
-          repoUrl: "#"
-        },
-        {
-          id: 10,
-          title: "CNHS ICT CSS",
-          description: "Online grade management application for ICT Computer Systems Servicing students at Camambugan National High School to access their academic performance and track progress.",
-          tags: ["ICT Education", "Web Platform", "Student Portal"],
-          imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1000&auto=format&fit=crop",
-          demoUrl: "https://cnhs-ictcss.netlify.app/",
-          repoUrl: "#"
-        },
-        {
-          id: 9,
-          title: "MPS Calc",
-          description: "Mean Percentage Score calculator designed to help educators efficiently compute and analyze student performance metrics with detailed statistical insights.",
-          tags: ["Analytics", "Education", "DepEd Tools"],
-          imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop",
-          demoUrl: "https://iamtr3b.my.canva.site/calcmps",
-          repoUrl: "#"
-        },
-        {
-          id: 8,
-          title: "UN Reviewer",
-          description: "Interactive educational tool designed to help students learn about the United Nations, its history, structure, and global impact through engaging content.",
-          tags: ["Education", "Interactive", "Social Studies"],
-          imageUrl: "https://images.unsplash.com/photo-1529108190281-9a4f620bc2d8?q=80&w=1000&auto=format&fit=crop",
-          demoUrl: "https://iamtr3b.my.canva.site/unreviewer",
-          repoUrl: "#"
-        },
-        {
-          id: 7,
-          title: "DepEd Lesson Plan Maker with AI",
-          description: "Intelligent lesson planning assistant that leverages AI to help educators create comprehensive, standards-aligned lesson plans efficiently.",
-          tags: ["AI Assistant", "Education", "Planning"],
-          imageUrl: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000&auto=format&fit=crop",
-          demoUrl: "https://aistudio.google.com/apps/drive/1-mhDmi66bGcwXIGZextTd740u52LCSQ8",
-          repoUrl: "#"
-        },
-        {
-          id: 5,
-          title: "AI Photo Maker",
-          description: "Advanced AI-powered image generation tool that creates stunning visuals from text descriptions using cutting-edge machine learning models.",
-          tags: ["Generative AI", "Computer Vision", "Creative Tools"],
-          imageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop",
-          demoUrl: "https://gemini.google.com/share/e2e9dc267612",
-          repoUrl: "#"
-        },
-        {
-          id: 6,
-          title: "DepEd QRA Calculator",
-          description: "Comprehensive Quarterly Report On Assessment calculator designed specifically for DepEd educators to streamline performance evaluation processes.",
-          tags: ["Productivity", "Analytics", "DepEd Tools"],
-          imageUrl: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1000&auto=format&fit=crop",
-          demoUrl: "https://iamtr3b.my.canva.site/calqra",
-          repoUrl: "#"
-        }
+        { id: 18, title: "EduDraw", description: "An interactive draw lots application designed to help teachers randomly select students for recitations and tasks, promoting fairness and engagement in the classroom.", tags: ["Randomizer", "Classroom Tool", "Utility"], imageUrl: "https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?q=80&w=1000&auto=format&fit=crop", demoUrl: "https://edudraw.vercel.app/", repoUrl: "#" },
+        { id: 17, title: "Tarpapel Maker", description: "A cheap alternative to tarpaulin printing that splits large images into multiple standard pages. Tarpapel is a portmanteau of 'tarpaulin' and 'papel' (paper).", tags: ["Printing Tool", "Productivity", "Utility"], imageUrl: "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?q=80&w=1000&auto=format&fit=crop", demoUrl: "https://tarpmaker.vercel.app/", repoUrl: "#" },
+        { id: 16, title: "Photo ID Maker", description: "A specialized tool designed to help educators and schools automatically generate and format professional 1x1 and 2x2 ID photos with name tags for student identification.", tags: ["Image Processing", "Productivity", "School Tools"], imageUrl: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1000&auto=format&fit=crop", demoUrl: "https://gemini.google.com/share/6925266d0f97", repoUrl: "#" },
+        { id: 15, title: "DepEd TOS Generator", description: "K-12 & MELCs Aligned Item Distribution Tool that automatically generates comprehensive Table of Specifications for DepEd assessments, ensuring proper alignment with curriculum standards and learning competencies.", tags: ["Assessment", "DepEd Tools", "MELCs"], imageUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=1000&auto=format&fit=crop", demoUrl: "https://gemini.google.com/share/d0f03d582248", repoUrl: "#" },
+        { id: 14, title: "Poll-Voting System", description: "Digital polling and voting platform designed for educational institutions to conduct student elections, surveys, and classroom polls with real-time results and analytics.", tags: ["Voting System", "Analytics", "Education"], imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop", demoUrl: "https://iamtr3b.my.canva.site/sample1", repoUrl: "#" },
+        { id: 13, title: "DepEd PMES DLL Generator", description: "Intelligent Daily Lesson Log generator specifically designed for DepEd's Performance Monitoring and Evaluation System, streamlining lesson planning with AI-powered content creation.", tags: ["AI Tool", "DepEd Systems", "Productivity"], imageUrl: "https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=1000&auto=format&fit=crop", demoUrl: "https://gemini.google.com/share/6f43c70601dd", repoUrl: "#" },
+        { id: 12, title: "Streaming App", description: "Modern streaming platform featuring a Netflix-inspired interface with movie browsing, search functionality, and responsive design for an optimal viewing experience.", tags: ["React", "Streaming", "UI/UX"], imageUrl: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=1000&auto=format&fit=crop", demoUrl: "https://tr3bflix.netlify.app/", repoUrl: "#" },
+        { id: 11, title: "AI Presentation Generator", description: "Intelligent presentation creation tool powered by Google AI Studio that automatically generates comprehensive slide decks from topics, complete with structured content and educational frameworks.", tags: ["AI Tools", "Productivity", "Presentation"], imageUrl: "https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=1000&auto=format&fit=crop", demoUrl: "https://aistudio.google.com/apps/drive/1IsQWpIdMByoDnkLf8A6Jw23w7S17akP6", repoUrl: "#" },
+        { id: 10, title: "CNHS ICT CSS", description: "Online grade management application for ICT Computer Systems Servicing students at Camambugan National High School to access their academic performance and track progress.", tags: ["ICT Education", "Web Platform", "Student Portal"], imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1000&auto=format&fit=crop", demoUrl: "https://cnhs-ictcss.netlify.app/", repoUrl: "#" },
+        { id: 9, title: "MPS Calc", description: "Mean Percentage Score calculator designed to help educators efficiently compute and analyze student performance metrics with detailed statistical insights.", tags: ["Analytics", "Education", "DepEd Tools"], imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop", demoUrl: "https://iamtr3b.my.canva.site/calcmps", repoUrl: "#" },
+        { id: 8, title: "UN Reviewer", description: "Interactive educational tool designed to help students learn about the United Nations, its history, structure, and global impact through engaging content.", tags: ["Education", "Interactive", "Social Studies"], imageUrl: "https://images.unsplash.com/photo-1529108190281-9a4f620bc2d8?q=80&w=1000&auto=format&fit=crop", demoUrl: "https://iamtr3b.my.canva.site/unreviewer", repoUrl: "#" },
+        { id: 7, title: "DepEd Lesson Plan Maker with AI", description: "Intelligent lesson planning assistant that leverages AI to help educators create comprehensive, standards-aligned lesson plans efficiently.", tags: ["AI Assistant", "Education", "Planning"], imageUrl: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000&auto=format&fit=crop", demoUrl: "https://aistudio.google.com/apps/drive/1-mhDmi66bGcwXIGZextTd740u52LCSQ8", repoUrl: "#" },
+        { id: 5, title: "AI Photo Maker", description: "Advanced AI-powered image generation tool that creates stunning visuals from text descriptions using cutting-edge machine learning models.", tags: ["Generative AI", "Computer Vision", "Creative Tools"], imageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop", demoUrl: "https://gemini.google.com/share/e2e9dc267612", repoUrl: "#" },
+        { id: 6, title: "DepEd QRA Calculator", description: "Comprehensive Quarterly Report On Assessment calculator designed specifically for DepEd educators to streamline performance evaluation processes.", tags: ["Productivity", "Analytics", "DepEd Tools"], imageUrl: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1000&auto=format&fit=crop", demoUrl: "https://iamtr3b.my.canva.site/calqra", repoUrl: "#" }
       ];
-
       const SKILLS = [
-        // Artificial Intelligence
         { name: "Machine Learning", category: SkillCategory.AI },
         { name: "AI Integration", category: SkillCategory.AI },
         { name: "Gemini AI", category: SkillCategory.AI },
         { name: "Educational AI Tools", category: SkillCategory.AI },
-        
-        // Web Development
         { name: "Frontend Development", category: SkillCategory.WEB },
         { name: "Responsive Design", category: SkillCategory.WEB },
         { name: "Interactive Applications", category: SkillCategory.WEB },
-
-        // Educational Technology
         { name: "EdTech Solutions", category: SkillCategory.EDTECH },
         { name: "Learning Management", category: SkillCategory.EDTECH },
         { name: "Assessment Tools", category: SkillCategory.EDTECH },
-
-        // Performance Optimization
         { name: "Fast Loading", category: SkillCategory.PERFORMANCE },
         { name: "User Experience", category: SkillCategory.PERFORMANCE },
         { name: "Efficient Workflows", category: SkillCategory.PERFORMANCE },
@@ -316,452 +189,257 @@
         const getButtonStyles = () => {
           const base = "group inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-xl transition-all transform active:scale-95";
           switch (variant) {
-            case 'primary':
-              return `${base} text-dark bg-primary hover:bg-emerald-400 shadow-[0_0_20px_-5px_rgba(16,185,129,0.4)] hover:-translate-y-1 font-bold`;
-            case 'outline':
-              return `${base} border border-white/10 text-white bg-white/5 hover:bg-white/10 backdrop-blur-sm hover:-translate-y-1`;
-            case 'ghost':
-              return `${base} text-slate-400 hover:text-white hover:bg-white/5`;
-            default:
-              return base;
+            case 'primary': return `${base} text-dark bg-primary hover:bg-emerald-400 shadow-[0_0_20px_-5px_rgba(16,185,129,0.4)] hover:-translate-y-1 font-bold`;
+            case 'outline': return `${base} border border-white/10 text-white bg-white/5 hover:bg-white/10 backdrop-blur-sm hover:-translate-y-1`;
+            case 'ghost': return `${base} text-slate-400 hover:text-white hover:bg-white/5`;
+            default: return base;
           }
         };
 
         return (
-          <React.Fragment>
-            <button
-              onClick={() => setIsOpen(true)}
-              className={`${getButtonStyles()} ${className}`}
-            >
-              <Coffee className={`mr-2 -ml-1 h-5 w-5 transition-colors ${variant === 'primary' ? 'text-dark' : 'text-primary group-hover:text-emerald-300'}`} />
-              {label}
-            </button>
-
-            {isOpen && (
-              <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-dark/80 backdrop-blur-md animate-fade-in">
-                <div className="bg-dark-lighter border border-white/10 rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden transform transition-all scale-100 animate-blob">
-                  {/* Header */}
-                  <div className="bg-gradient-to-br from-primary/20 to-dark p-6 text-center relative border-b border-white/5">
-                    <button
-                      onClick={() => setIsOpen(false)}
-                      className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-full"
-                    >
-                      <X className="h-5 w-5" />
-                    </button>
-                    <div className="bg-dark w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-primary/30 shadow-[0_0_20px_-5px_rgba(16,185,129,0.5)]">
-                      <Coffee className="h-8 w-8 text-primary" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-white">Buy me a coffee</h3>
-                    <p className="text-slate-400 text-sm mt-2 font-medium">Support my educational tools & open source work!</p>
-                  </div>
-
-                  {/* Body */}
-                  <div className="p-6 space-y-6 bg-dark">
-                    <div className="text-center">
-                      <p className="text-slate-300 text-xs uppercase tracking-widest font-bold mb-3">Send support via GCash</p>
-                      <div className="bg-dark-lighter border border-white/10 rounded-xl p-1 flex items-center justify-between group hover:border-primary/50 transition-colors shadow-lg">
-                        <div className="flex-1 text-center py-3 pl-3">
-                          <span className="text-xl font-mono font-bold text-white tracking-wider">{GCASH_NUMBER}</span>
-                        </div>
-                        <button
-                          onClick={handleCopy}
-                          className="p-3 bg-white/5 hover:bg-primary hover:text-dark rounded-lg transition-all duration-300 text-primary m-1"
-                          title="Copy number"
-                        >
-                          {copied ? <Check className="h-5 w-5" /> : <Copy className="h-5 w-5" />}
-                        </button>
-                      </div>
-                      {copied && <p className="text-primary text-xs mt-2 font-medium animate-pulse">Copied to clipboard!</p>}
-                    </div>
-
-                    <div className="text-center px-4">
-                      <p className="text-xs text-slate-500 italic">
-                        "Every contribution helps me maintain servers and build better tools for teachers."
-                      </p>
-                    </div>
-                  </div>
-                  
-                  {/* Footer Action */}
-                  <div className="p-4 bg-dark-lighter border-t border-white/5">
-                      <button 
-                          onClick={() => setIsOpen(false)}
-                          className="w-full py-3 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium rounded-xl transition-colors text-sm"
-                      >
-                          Close
-                      </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </React.Fragment>
+          React.createElement(React.Fragment, null,
+            React.createElement('button', { onClick: () => setIsOpen(true), className: `${getButtonStyles()} ${className}` },
+              React.createElement(Coffee, { className: `mr-2 -ml-1 h-5 w-5 transition-colors ${variant === 'primary' ? 'text-dark' : 'text-primary group-hover:text-emerald-300'}` }),
+              label
+            ),
+            isOpen && React.createElement('div', { className: "fixed inset-0 z-[100] flex items-center justify-center p-4 bg-dark/80 backdrop-blur-md animate-fade-in" },
+              React.createElement('div', { className: "bg-dark-lighter border border-white/10 rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden transform transition-all scale-100 animate-blob" },
+                React.createElement('div', { className: "bg-gradient-to-br from-primary/20 to-dark p-6 text-center relative border-b border-white/5" },
+                  React.createElement('button', { onClick: () => setIsOpen(false), className: "absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-full" }, React.createElement(X, { className: "h-5 w-5" })),
+                  React.createElement('div', { className: "bg-dark w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-primary/30 shadow-[0_0_20px_-5px_rgba(16,185,129,0.5)]" }, React.createElement(Coffee, { className: "h-8 w-8 text-primary" })),
+                  React.createElement('h3', { className: "text-2xl font-bold text-white" }, "Buy me a coffee"),
+                  React.createElement('p', { className: "text-slate-400 text-sm mt-2 font-medium" }, "Support my educational tools & open source work!")
+                ),
+                React.createElement('div', { className: "p-6 space-y-6 bg-dark" },
+                  React.createElement('div', { className: "text-center" },
+                    React.createElement('p', { className: "text-slate-300 text-xs uppercase tracking-widest font-bold mb-3" }, "Send support via GCash"),
+                    React.createElement('div', { className: "bg-dark-lighter border border-white/10 rounded-xl p-1 flex items-center justify-between group hover:border-primary/50 transition-colors shadow-lg" },
+                      React.createElement('div', { className: "flex-1 text-center py-3 pl-3" }, React.createElement('span', { className: "text-xl font-mono font-bold text-white tracking-wider" }, GCASH_NUMBER)),
+                      React.createElement('button', { onClick: handleCopy, className: "p-3 bg-white/5 hover:bg-primary hover:text-dark rounded-lg transition-all duration-300 text-primary m-1", title: "Copy number" },
+                        copied ? React.createElement(Check, { className: "h-5 w-5" }) : React.createElement(Copy, { className: "h-5 w-5" })
+                      )
+                    ),
+                    copied && React.createElement('p', { className: "text-primary text-xs mt-2 font-medium animate-pulse" }, "Copied to clipboard!")
+                  ),
+                  React.createElement('div', { className: "text-center px-4" }, React.createElement('p', { className: "text-xs text-slate-500 italic" }, "\"Every contribution helps me maintain servers and build better tools for teachers.\""))
+                ),
+                React.createElement('div', { className: "p-4 bg-dark-lighter border-t border-white/5" },
+                  React.createElement('button', { onClick: () => setIsOpen(false), className: "w-full py-3 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-medium rounded-xl transition-colors text-sm" }, "Close")
+                )
+              )
+            )
+          )
         );
       };
 
       const Navbar = () => {
         const [isOpen, setIsOpen] = useState(false);
         const [scrolled, setScrolled] = useState(false);
-
         useEffect(() => {
           const handleScroll = () => setScrolled(window.scrollY > 20);
           window.addEventListener('scroll', handleScroll);
           return () => window.removeEventListener('scroll', handleScroll);
         }, []);
-
         const navLinks = [
           { name: 'About', href: '#about' },
           { name: 'Skills', href: '#skills' },
           { name: 'Projects', href: '#projects' },
           { name: 'Contact', href: '#contact' },
         ];
-
-        return (
-          <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-dark/80 backdrop-blur-xl border-b border-white/5 py-4 shadow-lg' : 'bg-transparent py-6'}`}>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-              <div className="flex items-center space-x-2 group cursor-pointer">
-                <div className="bg-primary/10 p-2 rounded-lg border border-primary/20 group-hover:bg-primary/20 transition-colors">
-                  <BookOpen className="text-primary h-5 w-5" />
-                </div>
-                <span className="text-xl font-bold text-white tracking-tight group-hover:text-primary transition-colors">
-                  iamtr3b
-                </span>
-              </div>
-
-              {/* Desktop Menu */}
-              <div className="hidden md:flex items-center space-x-1">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-full transition-all"
-                  >
-                    {link.name}
-                  </a>
-                ))}
-                <a 
-                  href="#contact" 
-                  className="ml-4 px-5 py-2 text-sm font-bold text-dark bg-primary hover:bg-emerald-400 rounded-full transition-colors shadow-[0_0_15px_-3px_rgba(16,185,129,0.4)]"
-                >
-                  Collaborate
-                </a>
-              </div>
-
-              {/* Mobile Menu Button */}
-              <div className="md:hidden">
-                <button
-                  onClick={() => setIsOpen(!isOpen)}
-                  className="text-slate-300 hover:text-white focus:outline-none p-2"
-                >
-                  {isOpen ? <X /> : <Menu />}
-                </button>
-              </div>
-            </div>
-
-            {/* Mobile Menu Dropdown */}
-            {isOpen && (
-              <div className="md:hidden bg-dark border-b border-white/10 absolute w-full shadow-2xl">
-                <div className="px-4 pt-2 pb-6 space-y-2">
-                  {navLinks.map((link) => (
-                    <a
-                      key={link.name}
-                      href={link.href}
-                      className="block px-4 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {link.name}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
-          </nav>
+        return React.createElement('nav', { className: `fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-dark/80 backdrop-blur-xl border-b border-white/5 py-4 shadow-lg' : 'bg-transparent py-6'}` },
+          React.createElement('div', { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center" },
+            React.createElement('div', { className: "flex items-center space-x-2 group cursor-pointer" },
+              React.createElement('div', { className: "bg-primary/10 p-2 rounded-lg border border-primary/20 group-hover:bg-primary/20 transition-colors" }, React.createElement(BookOpen, { className: "text-primary h-5 w-5" })),
+              React.createElement('span', { className: "text-xl font-bold text-white tracking-tight group-hover:text-primary transition-colors" }, "iamtr3b")
+            ),
+            React.createElement('div', { className: "hidden md:flex items-center space-x-1" },
+              ...navLinks.map(link => React.createElement('a', { key: link.name, href: link.href, className: "px-4 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-full transition-all" }, link.name)),
+              React.createElement('a', { href: "#contact", className: "ml-4 px-5 py-2 text-sm font-bold text-dark bg-primary hover:bg-emerald-400 rounded-full transition-colors shadow-[0_0_15px_-3px_rgba(16,185,129,0.4)]" }, "Collaborate")
+            ),
+            React.createElement('div', { className: "md:hidden" },
+              React.createElement('button', { onClick: () => setIsOpen(!isOpen), className: "text-slate-300 hover:text-white focus:outline-none p-2" },
+                isOpen ? React.createElement(X, null) : React.createElement(Menu, null)
+              )
+            )
+          ),
+          isOpen && React.createElement('div', { className: "md:hidden bg-dark border-b border-white/10 absolute w-full shadow-2xl" },
+            React.createElement('div', { className: "px-4 pt-2 pb-6 space-y-2" },
+              navLinks.map(link => React.createElement('a', { key: link.name, href: link.href, className: "block px-4 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors", onClick: () => setIsOpen(false) }, link.name))
+            )
+          )
         );
       };
 
       const Hero = () => {
         const [imageError, setImageError] = useState(false);
-
-        return (
-          <section id="about" className="relative min-h-screen flex items-center justify-center pt-20 pb-12 overflow-hidden">
-            {/* Modern Grid Background */}
-            <div className="absolute inset-0 bg-grid-white pointer-events-none opacity-[0.15]"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-dark/0 via-dark/50 to-dark pointer-events-none"></div>
-
-            {/* Background Blurs */}
-            <div className="absolute top-20 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full mix-blend-screen filter blur-[120px] opacity-40 animate-blob"></div>
-            <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-secondary/10 rounded-full mix-blend-screen filter blur-[120px] opacity-40 animate-blob animation-delay-2000"></div>
-            
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-              <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-20">
-                
-                {/* Left Content: Text */}
-                <div className="flex-1 text-center lg:text-left">
-                  <div className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-emerald-400 text-sm font-medium mb-6 animate-fade-in cursor-default">
-                    <span className="relative flex h-2 w-2 mr-3">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                    </span>
-                    {PORTFOLIO_ROLE}
-                  </div>
-                  
-                  <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6 animate-fade-in leading-[1.1]" style={{ animationDelay: '0.1s' }}>
-                    <span className="text-slate-300 text-3xl md:text-4xl font-bold block mb-2">Hello, I am</span>
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">{PORTFOLIO_OWNER}</span>
-                  </h1>
-
-                  <p className="mt-4 text-xl md:text-2xl text-slate-300 font-medium animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                    {PORTFOLIO_TAGLINE}
-                  </p>
-                  
-                  <p className="mt-4 text-lg text-slate-400 animate-fade-in leading-relaxed max-w-2xl mx-auto lg:mx-0" style={{ animationDelay: '0.3s' }}>
-                    {PORTFOLIO_SUB_TAGLINE}
-                  </p>
-
-                  <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mt-10 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-                    <a href="#projects" className="group inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-xl text-dark bg-primary hover:bg-emerald-400 transition-all transform hover:-translate-y-1 shadow-[0_0_20px_-5px_rgba(16,185,129,0.4)]">
-                      View Initiatives
-                      <ArrowRight className="ml-2 -mr-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                    </a>
-                    <BuyMeCoffee variant="outline" />
-                  </div>
-                </div>
-
-                {/* Right Content: Image */}
-                <div className="flex-1 flex justify-center lg:justify-end animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                  <div className="relative w-72 h-72 md:w-[400px] md:h-[400px] group">
-                    {/* Decoration ring */}
-                    <div className="absolute -inset-4 rounded-2xl bg-gradient-to-r from-primary to-secondary opacity-30 blur-lg group-hover:opacity-50 transition-opacity duration-500 animate-pulse-slow"></div>
-                    
-                    {/* Image Container - using rounded-2xl for card style */}
-                    <div className="relative w-full h-full rounded-3xl overflow-hidden border-4 border-dark-lighter shadow-2xl ring-4 ring-white/5 transform md:rotate-3 group-hover:rotate-0 transition-all duration-500 ease-out bg-dark-lighter">
-                      <img 
-                        src={imageError ? `https://ui-avatars.com/api/?name=Melbhert+Boiser&background=10b981&color=fff&size=512&font-size=0.33&bold=true` : PROFILE_IMAGE_URL} 
-                        alt={PORTFOLIO_OWNER} 
-                        onError={() => setImageError(true)}
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
-                      />
-                    </div>
-
-                    {/* Floating Badge */}
-                    <div className="absolute -bottom-4 -right-4 bg-dark-lighter/90 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-xl transform rotate-0 group-hover:-translate-y-2 transition-transform duration-500">
-                      <div className="flex items-center gap-3">
-                        <div className="bg-primary/20 p-2 rounded-lg">
-                          <BookOpen className="h-5 w-5 text-primary" />
-                        </div>
-                        <div>
-                          <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Teacher</p>
-                          <p className="text-sm font-bold text-white">iamtr3b</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-              </div>
-            </div>
-            
-            {/* Scroll indicator */}
-            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer opacity-50 hover:opacity-100 transition-opacity hidden md:block">
-              <div className="w-6 h-10 border-2 border-slate-500 rounded-full flex justify-center p-1">
-                <div className="w-1 h-2 bg-slate-500 rounded-full animate-scroll"></div>
-              </div>
-            </div>
-          </section>
+        return React.createElement('section', { id: "about", className: "relative min-h-screen flex items-center justify-center pt-20 pb-12 overflow-hidden" },
+          React.createElement('div', { className: "absolute inset-0 bg-grid-white pointer-events-none opacity-[0.15]" }),
+          React.createElement('div', { className: "absolute inset-0 bg-gradient-to-b from-dark/0 via-dark/50 to-dark pointer-events-none" }),
+          React.createElement('div', { className: "absolute top-20 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full mix-blend-screen filter blur-[120px] opacity-40 animate-blob" }),
+          React.createElement('div', { className: "absolute bottom-0 right-0 w-[500px] h-[500px] bg-secondary/10 rounded-full mix-blend-screen filter blur-[120px] opacity-40 animate-blob animation-delay-2000" }),
+          React.createElement('div', { className: "relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10" },
+            React.createElement('div', { className: "flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-20" },
+              React.createElement('div', { className: "flex-1 text-center lg:text-left" },
+                React.createElement('div', { className: "inline-flex items-center px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-emerald-400 text-sm font-medium mb-6 animate-fade-in cursor-default" },
+                  React.createElement('span', { className: "relative flex h-2 w-2 mr-3" },
+                    React.createElement('span', { className: "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" }),
+                    React.createElement('span', { className: "relative inline-flex rounded-full h-2 w-2 bg-emerald-500" })
+                  ),
+                  PORTFOLIO_ROLE
+                ),
+                React.createElement('h1', { className: "text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6 animate-fade-in leading-[1.1]", style: { animationDelay: '0.1s' } },
+                  React.createElement('span', { className: "text-slate-300 text-3xl md:text-4xl font-bold block mb-2" }, "Hello, I am"),
+                  React.createElement('span', { className: "text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400" }, PORTFOLIO_OWNER)
+                ),
+                React.createElement('p', { className: "mt-4 text-xl md:text-2xl text-slate-300 font-medium animate-fade-in", style: { animationDelay: '0.2s' } }, PORTFOLIO_TAGLINE),
+                React.createElement('p', { className: "mt-4 text-lg text-slate-400 animate-fade-in leading-relaxed max-w-2xl mx-auto lg:mx-0", style: { animationDelay: '0.3s' } }, PORTFOLIO_SUB_TAGLINE),
+                React.createElement('div', { className: "flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mt-10 animate-fade-in", style: { animationDelay: '0.4s' } },
+                  React.createElement('a', { href: "#projects", className: "group inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-xl text-dark bg-primary hover:bg-emerald-400 transition-all transform hover:-translate-y-1 shadow-[0_0_20px_-5px_rgba(16,185,129,0.4)]" },
+                    "View Initiatives",
+                    React.createElement(ArrowRight, { className: "ml-2 -mr-1 h-5 w-5 group-hover:translate-x-1 transition-transform" })
+                  ),
+                  React.createElement(BuyMeCoffee, { variant: "outline" })
+                )
+              ),
+              React.createElement('div', { className: "flex-1 flex justify-center lg:justify-end animate-fade-in", style: { animationDelay: '0.2s' } },
+                React.createElement('div', { className: "relative w-72 h-72 md:w-[400px] md:h-[400px] group animate-float" },
+                  React.createElement('div', { className: "absolute -inset-4 rounded-2xl bg-gradient-to-r from-primary to-secondary opacity-30 blur-lg group-hover:opacity-50 transition-opacity duration-500 animate-pulse-slow" }),
+                  React.createElement('div', { className: "relative w-full h-full rounded-3xl overflow-hidden border-4 border-dark-lighter shadow-2xl ring-4 ring-white/5 transform md:rotate-3 group-hover:rotate-0 transition-all duration-500 ease-out bg-dark-lighter" },
+                    React.createElement('img', { src: imageError ? `https://ui-avatars.com/api/?name=Melbhert+Boiser&background=10b981&color=fff&size=512&font-size=0.33&bold=true` : PROFILE_IMAGE_URL, alt: PORTFOLIO_OWNER, onError: () => setImageError(true), referrerPolicy: "no-referrer", className: "w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105" })
+                  ),
+                  React.createElement('div', { className: "absolute -bottom-4 -right-4 bg-dark-lighter/90 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-xl transform rotate-0 group-hover:-translate-y-2 transition-transform duration-500" },
+                    React.createElement('div', { className: "flex items-center gap-3" },
+                      React.createElement('div', { className: "bg-primary/20 p-2 rounded-lg" }, React.createElement(BookOpen, { className: "h-5 w-5 text-primary" })),
+                      React.createElement('div', null,
+                        React.createElement('p', { className: "text-xs text-slate-400 font-medium uppercase tracking-wider" }, "Teacher"),
+                        React.createElement('p', { className: "text-sm font-bold text-white" }, "iamtr3b")
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          ),
+          React.createElement('div', { className: "absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer opacity-50 hover:opacity-100 transition-opacity hidden md:block" },
+            React.createElement('div', { className: "w-6 h-10 border-2 border-slate-500 rounded-full flex justify-center p-1" },
+              React.createElement('div', { className: "w-1 h-2 bg-slate-500 rounded-full animate-scroll" })
+            )
+          )
         );
       };
 
       const Skills = () => {
-        // Group skills by category
         const skillsByCategory = SKILLS.reduce((acc, skill) => {
-          if (!acc[skill.category]) {
-            acc[skill.category] = [];
-          }
+          if (!acc[skill.category]) acc[skill.category] = [];
           acc[skill.category].push(skill);
           return acc;
         }, {});
-
-        // Map categories to specific icons
-        const categoryIcons = {
-          [SkillCategory.AI]: Bot,
-          [SkillCategory.WEB]: Globe,
-          [SkillCategory.EDTECH]: GraduationCap,
-          [SkillCategory.PERFORMANCE]: Zap,
-        };
-
-        return (
-          <section id="skills" className="py-32 bg-dark relative overflow-hidden">
-             {/* Decoration */}
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-              <div className="text-center mb-20">
-                <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">Skills & Technologies</h2>
-                <p className="text-slate-400 max-w-2xl mx-auto text-lg">
-                  The expertise and tools I use to create innovative educational solutions
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {Object.keys(skillsByCategory).map((category, index) => {
-                  const Icon = categoryIcons[category] || Globe; // Default to Globe if no icon found
-                  
-                  return (
-                    <div 
-                      key={category} 
-                      className="group bg-dark-lighter/50 backdrop-blur-sm p-8 rounded-3xl border border-white/5 hover:border-primary/20 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2"
-                      style={{ transitionDelay: `${index * 100}ms` }}
-                    >
-                      <div className="flex items-center mb-6">
-                        <div className="bg-primary/10 p-3 rounded-xl border border-primary/20 group-hover:bg-primary/20 transition-colors mr-4">
-                          <Icon className="h-6 w-6 text-primary" />
-                        </div>
-                        <h3 className="text-xl font-bold text-white leading-tight">
-                          {category}
-                        </h3>
-                      </div>
-                      
-                      <div className="flex flex-wrap gap-3">
-                        {skillsByCategory[category].map((skill) => (
-                          <span 
-                            key={skill.name}
-                            className="px-4 py-2 bg-white/5 text-slate-300 rounded-xl text-sm font-medium border border-transparent hover:border-white/10 hover:bg-white/10 hover:text-white transition-all cursor-default"
-                          >
-                            {skill.name}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
+        const categoryIcons = { [SkillCategory.AI]: Bot, [SkillCategory.WEB]: Globe, [SkillCategory.EDTECH]: GraduationCap, [SkillCategory.PERFORMANCE]: Zap };
+        return React.createElement('section', { id: "skills", className: "py-32 bg-dark relative overflow-hidden" },
+          React.createElement('div', { className: "absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" }),
+          React.createElement('div', { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" },
+            React.createElement('div', { className: "text-center mb-20" },
+              React.createElement('h2', { className: "text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight" }, "Skills & Technologies"),
+              React.createElement('p', { className: "text-slate-400 max-w-2xl mx-auto text-lg" }, "The expertise and tools I use to create innovative educational solutions")
+            ),
+            React.createElement('div', { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" },
+              Object.keys(skillsByCategory).map((category, index) => {
+                const Icon = categoryIcons[category] || Globe;
+                return React.createElement('div', { key: category, className: "group bg-dark-lighter/50 backdrop-blur-sm p-8 rounded-3xl border border-white/5 hover:border-primary/20 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2", style: { transitionDelay: `${index * 100}ms` } },
+                  React.createElement('div', { className: "flex items-center mb-6" },
+                    React.createElement('div', { className: "bg-primary/10 p-3 rounded-xl border border-primary/20 group-hover:bg-primary/20 transition-colors mr-4" }, React.createElement(Icon, { className: "h-6 w-6 text-primary" })),
+                    React.createElement('h3', { className: "text-xl font-bold text-white leading-tight" }, category)
+                  ),
+                  React.createElement('div', { className: "flex flex-wrap gap-3" },
+                    skillsByCategory[category].map(skill => React.createElement('span', { key: skill.name, className: "px-4 py-2 bg-white/5 text-slate-300 rounded-xl text-sm font-medium border border-transparent hover:border-primary/20 hover:bg-primary/10 hover:text-white transition-all cursor-default hover:scale-105 transform duration-300" }, skill.name))
+                  )
+                );
+              })
+            )
+          )
         );
       };
 
       const Projects = () => {
-        return (
-          <section id="projects" className="py-32 bg-dark relative">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex flex-col md:flex-row justify-between items-end mb-16">
-                <div>
-                  <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">Featured Educational Tools</h2>
-                  <p className="text-slate-400 text-lg">Educational tools I've created to empower teachers and enhance student learning experiences</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                {PROJECTS.map((project) => (
-                  <div key={project.id} className="group relative bg-dark-lighter rounded-3xl overflow-hidden border border-white/5 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5">
-                    {/* Image Area */}
-                    <div className="relative h-72 overflow-hidden">
-                      <div className="absolute inset-0 bg-dark/20 group-hover:bg-dark/0 transition-colors duration-500 z-10"></div>
-                      <img 
-                        src={project.imageUrl} 
-                        alt={project.title} 
-                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 grayscale group-hover:grayscale-0"
-                      />
-                      
-                      {/* Floating Actions */}
-                      <div className="absolute top-4 right-4 flex space-x-3 z-20 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                        <a 
-                          href={project.demoUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="p-3 bg-dark/90 backdrop-blur-md border border-white/10 text-white rounded-full hover:bg-primary hover:border-primary hover:text-dark transition-all shadow-lg" 
-                          title="View Project"
-                        >
-                          <ExternalLink className="h-5 w-5" />
-                        </a>
-                      </div>
-                    </div>
-
-                    {/* Content Area */}
-                    <div className="p-8">
-                      <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-primary transition-colors">{project.title}</h3>
-                      <p className="text-slate-400 mb-6 leading-relaxed">{project.description}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags.map(tag => (
-                          <span key={tag} className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white/5 text-slate-300 border border-white/5 group-hover:border-white/10 transition-colors">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+        return React.createElement('section', { id: "projects", className: "py-32 bg-dark relative" },
+          React.createElement('div', { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" },
+            React.createElement('div', { className: "flex flex-col md:flex-row justify-between items-end mb-16" },
+              React.createElement('div', null,
+                React.createElement('h2', { className: "text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight" }, "Featured Educational Tools"),
+                React.createElement('p', { className: "text-slate-400 text-lg" }, "Educational tools I've created to empower teachers and enhance student learning experiences")
+              )
+            ),
+            React.createElement('div', { className: "grid grid-cols-1 md:grid-cols-2 gap-10" },
+              PROJECTS.map(project => React.createElement('div', { key: project.id, className: "group relative bg-dark-lighter rounded-3xl overflow-hidden border border-white/5 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 flex flex-col" },
+                React.createElement('a', { href: project.demoUrl, target: "_blank", rel: "noopener noreferrer", className: "block relative h-72 overflow-hidden" },
+                  React.createElement('img', { src: project.imageUrl, alt: project.title, className: "w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 grayscale group-hover:grayscale-0" }),
+                  React.createElement('div', { className: "absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10" },
+                    React.createElement('div', { className: "text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300" },
+                      React.createElement('p', { className: "text-white font-bold text-lg" }, "View Project"),
+                      React.createElement(ExternalLink, { className: "h-6 w-6 text-white mx-auto mt-1" })
+                    )
+                  )
+                ),
+                React.createElement('div', { className: "p-8 flex flex-col flex-grow" },
+                  React.createElement('h3', { className: "text-2xl font-bold text-white mb-3 group-hover:text-primary transition-colors" }, React.createElement('a', { href: project.demoUrl, target: "_blank", rel: "noopener noreferrer" }, project.title)),
+                  React.createElement('p', { className: "text-slate-400 mb-6 leading-relaxed flex-grow" }, project.description),
+                  React.createElement('div', { className: "mt-auto pt-6 border-t border-white/5 flex justify-between items-center" },
+                    React.createElement('div', { className: "flex flex-wrap gap-2" },
+                      project.tags.map(tag => React.createElement('span', { key: tag, className: "text-xs font-semibold px-3 py-1.5 rounded-lg bg-white/5 text-slate-300 border border-white/5 group-hover:border-white/10 transition-colors" }, tag))
+                    ),
+                    React.createElement('div', { className: "flex items-center space-x-2" },
+                      project.repoUrl && project.repoUrl !== '#' && React.createElement('a', { href: project.repoUrl, target: "_blank", rel: "noopener noreferrer", className: "p-2 text-slate-400 hover:text-white transition-colors", title: "View Repository" }, React.createElement(Github, { className: "h-5 w-5" })),
+                      React.createElement('a', { href: project.demoUrl, target: "_blank", rel: "noopener noreferrer", className: "p-2 text-slate-400 hover:text-white transition-colors", title: "View Project" }, React.createElement(ExternalLink, { className: "h-5 w-5" }))
+                    )
+                  )
+                )
+              ))
+            )
+          )
         );
       };
-
+      
       const Contact = () => {
-        return (
-          <section id="contact" className="py-24 bg-dark-lighter relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary opacity-50"></div>
-            
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-8">
-                <Mail className="h-8 w-8 text-primary" />
-              </div>
-              
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Let's build something together.</h2>
-              <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto">
-                I'm currently open to new opportunities. Whether you have a question or just want to say hi, my inbox is always open.
-              </p>
-
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
-                <a href="mailto:melbhert.boiser@deped.gov.ph" className="px-8 py-4 bg-primary text-dark font-bold rounded-xl hover:bg-emerald-400 transition-all transform hover:-translate-y-1 shadow-[0_0_20px_-5px_rgba(16,185,129,0.4)] w-full sm:w-auto inline-flex justify-center items-center">
-                  Say Hello
-                </a>
-                <BuyMeCoffee variant="outline" className="w-full sm:w-auto" />
-              </div>
-
-              <div className="flex justify-center space-x-8">
-                {SOCIAL_LINKS.map((social) => {
-                  const Icon = social.icon;
-                  return (
-                    <a 
-                      key={social.platform}
-                      href={social.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-slate-500 hover:text-white transition-colors transform hover:scale-110"
-                    >
-                      <Icon className="h-6 w-6" />
-                      <span className="sr-only">{social.platform}</span>
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
+        return React.createElement('section', { id: "contact", className: "py-24 bg-dark-lighter relative overflow-hidden" },
+          React.createElement('div', { className: "absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary opacity-50" }),
+          React.createElement('div', { className: "max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center" },
+            React.createElement('div', { className: "inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-8" }, React.createElement(Mail, { className: "h-8 w-8 text-primary" })),
+            React.createElement('h2', { className: "text-4xl md:text-5xl font-bold text-white mb-6" }, "Let's build something together."),
+            React.createElement('p', { className: "text-xl text-slate-400 mb-12 max-w-2xl mx-auto" }, "I'm currently open to new opportunities. Whether you have a question or just want to say hi, my inbox is always open."),
+            React.createElement('div', { className: "flex flex-col sm:flex-row items-center justify-center gap-6 mb-16" },
+              React.createElement('a', { href: "mailto:melbhert.boiser@deped.gov.ph", className: "px-8 py-4 bg-primary text-dark font-bold rounded-xl hover:bg-emerald-400 transition-all transform hover:-translate-y-1 shadow-[0_0_20px_-5px_rgba(16,185,129,0.4)] w-full sm:w-auto inline-flex justify-center items-center" }, "Say Hello"),
+              React.createElement(BuyMeCoffee, { variant: "outline", className: "w-full sm:w-auto" })
+            ),
+            React.createElement('div', { className: "flex justify-center space-x-8" },
+              SOCIAL_LINKS.map(social => {
+                const Icon = social.icon;
+                return React.createElement('a', { key: social.platform, href: social.url, target: "_blank", rel: "noopener noreferrer", className: "text-slate-500 hover:text-white transition-colors transform hover:scale-110" },
+                  React.createElement(Icon, { className: "h-6 w-6" }),
+                  React.createElement('span', { className: "sr-only" }, social.platform)
+                );
+              })
+            )
+          )
         );
       };
 
       const Footer = () => {
-        return (
-          <footer className="bg-dark py-8 border-t border-white/5">
-            <div className="max-w-7xl mx-auto px-4 text-center">
-              <p className="text-slate-500 text-sm">
-                © 2025 iamtr3b
-              </p>
-            </div>
-          </footer>
+        return React.createElement('footer', { className: "bg-dark py-8 border-t border-white/5" },
+          React.createElement('div', { className: "max-w-7xl mx-auto px-4 text-center" },
+            React.createElement('p', { className: "text-slate-500 text-sm" }, "© 2025 iamtr3b")
+          )
         );
       };
 
+      // --- MAIN APP COMPONENT ---
       const App = () => {
-        // Basic smooth scroll behavior for anchor links
         useEffect(() => {
           const handleAnchorClick = (e) => {
-            const target = e.target;
-            const anchor = target.closest('a');
-            if (anchor && anchor.getAttribute('href')?.startsWith('#')) {
+            const target = e.target.closest('a');
+            if (target && target.getAttribute('href')?.startsWith('#')) {
               e.preventDefault();
-              const id = anchor.getAttribute('href')?.substring(1);
-              const element = document.getElementById(id || '');
+              const id = target.getAttribute('href').substring(1);
+              const element = document.getElementById(id);
               if (element) {
                 element.scrollIntoView({ behavior: 'smooth' });
               }
@@ -772,30 +450,26 @@
         }, []);
 
         return (
-          <div className="min-h-screen bg-dark text-slate-300 selection:bg-primary selection:text-white">
-            <Navbar />
-            <main>
-              <Hero />
-              <Skills />
-              <Projects />
-              <Contact />
-            </main>
-            <Footer />
-          </div>
+          React.createElement('div', { className: "min-h-screen bg-dark text-slate-300 selection:bg-primary selection:text-white" },
+            React.createElement(Navbar, null),
+            React.createElement('main', null,
+              React.createElement(Hero, null),
+              React.createElement(Skills, null),
+              React.createElement(Projects, null),
+              React.createElement(Contact, null)
+            ),
+            React.createElement(Footer, null)
+          )
         );
       };
 
+      // --- RENDER APP ---
       const rootElement = document.getElementById('root');
       if (!rootElement) {
         throw new Error("Could not find root element to mount to");
       }
-
       const root = ReactDOM.createRoot(rootElement);
-      root.render(
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
-      );
+      root.render(React.createElement(React.StrictMode, null, React.createElement(App, null)));
     </script>
   </body>
 </html>
